@@ -24,10 +24,11 @@ return new class extends Migration
             $table->integer('discount_code')->nullable();
             $table->integer('shipping_total')->nullable();
             $table->string('shipping_method')->nullable();
+            $table->date('shipping_date')->nullable();
             $table->string('shipping_url')->nullable();
             $table->integer('subtotal');
             $table->integer('total');
-            $table->integer('vendor_total');
+            $table->integer('vendor_total')->nullable();
             $table->boolean('seen', false);
             $table->integer('tax')->nullable();
             $table->string('customer_note')->nullable();
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->string('payment_method_title')->nullable();
             $table->string('transaction_id')->nullable();
+            $table->tinyInteger('payouts_status')->default(0);
             $table->timestamp('date_paid')->nullable();
             $table->timestamp('date_completed')->nullable();
             $table->string('refund_amount')->nullable();

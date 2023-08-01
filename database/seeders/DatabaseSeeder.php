@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ShopTableSeeder::class,
             ProductTableSeeder::class,
-            OrdersTableSeeder::class,
+            // OrdersTableSeeder::class,
             AddressTableSeeder::class,
             ProdcatTableSeeder::class,
 

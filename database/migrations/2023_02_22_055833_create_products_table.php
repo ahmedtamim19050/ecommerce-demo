@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id()->autoIncrement();
+   
             $table->string('name')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->string('type')->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->text('short_description')->nullable();
             $table->string('sku')->nullable();
             $table->integer('price')->nullable();
+            $table->integer('vendor_price')->nullable();
             $table->integer('sale_price')->nullable();
             $table->integer('total_sale')->nullable();
             $table->text('downloads')->nullable();
@@ -36,6 +38,11 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('images')->nullable();
             $table->json('variations')->nullable();
+            $table->tinyInteger('is_offer')->default(0);
+            $table->integer('post_code')->nullable();
+            $table->text('color')->nullable();
+            $table->tinyInteger('is_variable_product')->default(0);
+            $table->text('sizes')->nullable();
             $table->timestamps();
         });
     }

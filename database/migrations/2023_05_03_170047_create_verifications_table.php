@@ -20,10 +20,14 @@ return new class extends Migration
             $table->timestamp('dob');
             $table->string('tax_no');
             $table->string('card_no');
-            $table->string('govt_id');
+            $table->string('govt_id_back');
+            $table->string('govt_id_front');
             $table->string('bank_ac');
-            $table->string('bank_name');
             $table->string('address');
+            $table->string('ac_holder_name');
+            $table->string('rtn');
+            $table->string('paypal');
+            $table->tinyInteger('ismonthly_charge')->default(0);
             $table->timestamps();
         });
     }
