@@ -1,86 +1,71 @@
-<div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 mb-6 col-6">
-    <div class="ec-product-inner">
-        <div class="ec-pro-image-outer">
-            <div class="ec-pro-image">
-                <a href="{{ route('product_details', $product->slug) }}" class="image">
-                    <img class="main-image" src="{{ Storage::url($product->image) }}" alt="Product" />
-                    <img class="hover-image" src="{{ Storage::url($product->image) }}" alt="Product" />
+<div class=" col-md-3 col-sm-6 mb-2">
+    <div class="product-box-3 h-100 wow fadeInUp" data-wow-delay="0.05s">
+        <div class="product-header">
+            <div class="product-image">
+                <a href="product-left-thumbnail.html">
+                    <img src="https://www.dreamhost.com/blog/wp-content/uploads/2019/06/afa314e6-1ae4-46c5-949e-c0a77f042e4f_DreamHost-howto-prod-descrips-full.jpeg"
+                        class="img-fluid blur-up lazyload" alt="Product Image" />
+                </a>
+                <ul class="product-option">
+                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#view">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </li>
+                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
+                        <a href="compare.html">
+                            <i class="fas fa-sync-alt"></i>
+                        </a>
+                    </li>
+                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                        <a href="wishlist.html" class="notifi-wishlist">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="product-footer">
+            <div class="product-detail">
+                <span class="span-name">Vegetable</span>
+                <a href="product-left-thumbnail.html">
+                    <h5 class="name">
+                        Peanut Butter Bite Premium Butter Cookies 600 g
+                    </h5>
                 </a>
 
-                <div class="ec-pro-actions">
-                    <a href="JavaScript:void(0)" onclick="quickView({{ $product->id }})" class="quickview"><i
-                            class="fi-rr-eye"></i></a>
-                    <form class="addToCartForm_{{ $product->id }}">
-                        @csrf
-                        <input type="hidden" class="form-control qty" value="1" min="1" name="quantity">
-                        <input type="hidden" name="product_id" value="{{ $product->id }}" />
-                        @if ($product->is_variable && count($product->subproductsuser) > 0)
-                            <div class="row mt-2 pt-2 w-100 mb-2">
-                                @foreach ($product->attributes as $attribute)
-                                    <div class="form-group col-md-4 pl-0 ">
-                                        <label for="{{ $attribute->name }}">
-                                            {{ str_replace('_', ' ', $attribute->name) }}</label>
-                                        <select class="form-control w-100"
-                                            id="{{ str_replace(' ', '_', $attribute->name) }}"
-                                            name="variable_attribute[{{ $attribute->name }}]"
-                                            onchange="change_variable()" onload="" required>
-
-                                            @foreach ($attribute->value as $value)
-                                                <option value="{{ $value }}">{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        @endif
-                        <button title="Add To Cart" data-product-id="{{ $product->id }}"
-                            class="add-to-cart cart-store" style="right: 6px; bottom: 86px" type="button"><i
-                                class="fi-rr-shopping-basket"></i></button>
-                    </form>
-                    @if (!in_array($product->id, session()->get('wishlist', [])))
-                        <a href="javascript:void(0)" onclick="wishlist({{ $product->id }})"
-                            class="ec-btn-group wishlist" style="bottom: 55px"><i
-                                class="add-wish-new_{{ $product->id }} fa-regular fa-heart"></i></a>
-                    @else
-                        <a href="javascript:void(0)" onclick="wishlist({{ $product->id }})"
-                            class="ec-btn-group wishlist" style="bottom: 55px"><i
-                                class="add-wish-new_{{ $product->id }} fa-regular fa-solid fa-heart"
-                                style="color: #3BB77E"></i></a>
-                    @endif
+                <div class="product-rating mt-2">
+                    <ul class="rating">
+                        <li>
+                            <i class="fas fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-star-half-alt"></i>
+                        </li>
+                    </ul>
+                    <span>(4.5)</span>
                 </div>
-            </div>
-        </div sty>
-        <div class="ec-pro-content text-center" style="height: 180px;position:relative">
-            <h5 class="ec-pro-title text-center" style=" color:#19191D">
-                <a href="{{ route('product_details', $product->slug) }}"
-                    style="font-size: 15px;">{{ $product->name }}</a>
-            </h5>
-
-            <div class="ec-pro-list-desc text-center" style="font-size: 12px; color: #787885;height: 35px;">
-                {{ Str::limit(strip_tags($product->short_description), $limit = 55, $end = '...') }}
-            </div>
-            <div style="position:absolute;bottom:0;width:100%">
-
-                <div class="ec-pro-rating reco-ratting d-flex justify-content-center">
-                    <input value="{{ Sohoj::average_rating($product->ratings) }}" class="rating published_rating"
-                        data-size="xs">
-                </div>
-
-                <div class="d-flex justify-content-between button-size align-items-center">
-                    <span class="ec-price">
-                        <span class="new-price"
-                            style="font-size: 20px; font-weight:700;color:000000;">{{ Sohoj::price($product->price) }}</span>
-                    </span>
-                    <form class="addToCartForm_{{ $product->id }}" id="">
-                        @csrf
-                        <input type="hidden" class="form-control qty" value="1" min="1" name="quantity">
-                        <input type="hidden" name="product_id" value="{{ $product->id }}" />
-                        <button id="addToCartBtn" class="btn btn-sm btn-dark cart-store"
-                            data-product-id="{{ $product->id }}" type="button"><i class="fi-rr-shopping-cart"></i>
-                            ADD
-                        </button>
-                    </form>
+                <h6 class="unit">350 G</h6>
+                <h5 class="price">
+                    <span class="theme-color">$04.33</span>
+                    <del>$10.36</del>
+                </h5>
+                <div class="add-to-cart-box bg-white">
+                    <button class="btn btn-add-cart addcart-button " style="width: 100%">
+                        Add
+                        <span class="add-icon bg-light-gray">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>

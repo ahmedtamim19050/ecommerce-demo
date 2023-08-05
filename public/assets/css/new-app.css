@@ -1,0 +1,215 @@
+/* start Categories Section */
+.category-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-box img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+.category-box:hover img {
+  transform: scale(1.1);
+}
+.category-box h5 {
+  font-size: 16px;
+
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
+.category-box:hover h5 {
+  color: #ff6a00;
+}
+.owl-prev,
+.owl-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 36px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.owl-prev {
+  left: -20px;
+}
+
+.owl-next {
+  right: -20px;
+}
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.title-leaf {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.title-leaf svg {
+  width: 100%;
+  height: 100%;
+  fill: #4caf50;
+}
+
+.title p {
+  font-size: 18px;
+  font-weight: 500;
+}
+/* end categories section  */
+/* Add your custom CSS here */
+
+footer {
+  padding-top: 40px;
+  padding-bottom: 30px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+}
+
+.footer-logo img {
+  max-width: 180px;
+  height: auto;
+}
+
+.footer-description {
+  color: #777;
+}
+
+.footer-title {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.footer-address {
+  color: #555;
+}
+
+.footer-address i,
+.footer-title i {
+  margin-right: 5px;
+}
+
+.footer-address a {
+  color: #333;
+  text-decoration: none; /* Remove underlines from links */
+}
+
+.footer-social {
+  margin-top: 20px;
+}
+
+.footer-social h4 {
+  margin-bottom: 15px;
+}
+
+.footer-social ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.footer-social li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.footer-social a {
+  color: #333;
+  text-decoration: none; /* Remove underlines from links */
+}
+
+/* Change link color on hover */
+.footer-social a:hover,
+.footer-address a:hover {
+  color: #555;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .footer-title,
+  .footer-social {
+    text-align: center;
+  }
+
+  .footer-logo img {
+    max-width: 150px;
+  }
+}
+.section-t-space a {
+  color: #777;
+  text-decoration: none;
+}
+.sub-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sub-footer h6 {
+  color: #777;
+  margin: 0;
+}
+
+.payment img {
+  height: 40px;
+}
+/* Add your custom CSS here */
+
+.title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.title-subtext {
+  font-size: 18px;
+  color: #777;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .title-heading {
+    font-size: 30px;
+  }
+
+  .title-subtext {
+    font-size: 16px;
+  }
+}
