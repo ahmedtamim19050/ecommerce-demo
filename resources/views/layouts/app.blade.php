@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <title>Fixmart</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/new-app.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/product.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/shop-card.css') }}" />
+    @yield('css')
 
 </head>
 
@@ -156,7 +157,10 @@
     </footer>
     <script src="{{ asset('assets/frontend-assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('assets/frontend-assets/js/plugins/owl.carousel.min.js') }}"></script>
+    @yield('js')
     <script src="{{ asset('assets/js/custom_slick.js') }}"></script>
+
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -165,6 +169,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
+
     <script>
         $(document).ready(function() {
             $(".owl-carousel").owlCarousel({

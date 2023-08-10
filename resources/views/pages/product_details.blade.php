@@ -1,422 +1,556 @@
 @extends('layouts.app')
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/style.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/frontend-assetss/responsive.css') }}" />
-<link rel="stylesheet" id="bg-switcher-css" href="{{ asset('assets/frontend-assetss/css/backgrounds/bg-4.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/product_details.css') }}">
-{{-- <link rel="stylesheet" href="{{ asset('assets/css/star-rating.css') }}"> --}}
-<link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/shops.css') }}">
-
-<style>
-    .ec-product-inner .ec-pro-image .ec-pro-actions .wishlist {
-        right: 10px;
-    }
-</style>
+    <link rel="stylesheet" href="{{ asset('assets/css/product-details.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/slick-theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}" />
 @endsection
 @section('content')
-<x-app.header />
-@php
-$images = json_decode($product->images) ?? [];
-
-@endphp
-<!-- Sart Single product -->
-<section class="ec-page-content section-space-p product_details-body">
-    <div class="container">
-        <div class="row">
-            <div class="ec-pro-rightside ec-common-rightside col-lg-12 col-md-12">
-
-                <!-- Single product content Start -->
-                <div class="single-pro-block">
-                    <div class="single-pro-inner">
-                        <div class="row">
-                            <div class="single-pro-img single-pro-img-no-sidebar ">
-                                <div class="single-product-scroll">
-
-                                    <div class="single-product-cover">
-                                        <div class="single-slide zoom-image-hover" style="height: 500px">
-                                            <img class="img-responsive" style="object-fit: contain;
-                                                width: 100%;
-                                                height: 100%;" src="{{ Storage::url($product->image) }}" alt="">
-                                        </div>
-                                        @if ($images)
-                                        @foreach ($images as $key => $image)
-                                        <div class="single-slide zoom-image-hover" style="height: 500px">
-                                            <img class="img-responsive" style="object-fit: cover;
-                                                width: 100%;
-                                                height: 100%;" src="{{ Storage::url($image) }}" alt="">
-                                        </div>
-                                        @endforeach
-                                        @endif
-
-                                    </div>
-
-                                    <div class="single-nav-thumb">
-                                        <div class="single-slide" style="">
-                                            <img class="img-responsive" style="object-fit: cover; height:100px" src="{{ Storage::url($product->image) }}" alt="">
-                                        </div>
-                                        @if ($images)
-                                        @foreach ($images as $key => $image)
-                                        <div class="single-slide">
-                                            <img class="img-responsive" style="height:100px" src="{{ Voyager::image($image) }}" alt="">
-                                        </div>
-                                        @endforeach
-                                        @endif
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-pro-desc single-pro-desc-no-sidebar">
-                                <div class="single-pro-content d-flex flex-column justify-content-between" style="height
-                                    :100%">
-                                    <div>
-                                        <h5 class="ec-single-title mb-2 " style="font-family: 'Inter', sans-serif; font-weight: 500">
-                                            {{ $product->name }}
-                                        </h5>
-                                        <span>Shop:
-
-                                            <a href="{{ route('store_front', $product->shop->slug) }}">
-                                                {{ $product->shop->name }}</a>
-                                        </span>
-
-                                        <div class="ec-single-rating-wrap mt-3">
-                                            <div class="ec-single-rating">
-                                                <input value="{{ Sohoj::average_rating($product->ratings) }}" class="rating published_rating" data-size="sm">
-                                            </div>
-
-                                        </div>
-                                        <div class="ec-single-desc ">
-                                            <span>{!! $product->short_description !!}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-5">
-                                        <div class="stock product_details-body">
-                                            <span>Availability: <span style="color: #D81919E5">{{ $product->quantity }}</span> in Stock
-                                            </span>
-                                        </div>
-
-                                        <div class="ec-single-price-stoke">
-                                            <div class="ec-single-price product-price">
-                                                <span class="ec-single-ps-title price-currency product_details-body">usd</span>
-                                                <div class="d-flex align-items-center">
-                                                    {{-- <span class="new-price product-ammount product_details-body">{{ Sohoj::price($product->sale_price) }}</span>
-                                                    <span class="old-price product-ammount product_details-body">{{ Sohoj::price($product->price) }}</span> --}}
-                                                    <span class="ec-price d-flex align-items-center">
-                                                        <span class="new-price product-ammount product_details-body">{{ Sohoj::price($product->sale_price ?? $product->price) }}</span>
-                                                        @if($product->sale_price)
-                                                        <del><span class="old-price ">{{ Sohoj::price($product->price) }}</span></del>
-                                                        @endif
-
-                                                    </span>
-                                                    @if($product->is_offer==true)
-                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#offerModal"><span class="mx-3">Make an
-                                                            Offer?</span></a>
-                                                    @endif
-                                                    <!-- Modal  -->
-                                                    <div class="modal fade" id="offerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                                        Send Offer</h1>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="{{ route('offer', $product) }}" method="post">
-                                                                        @csrf
-                                                                        <div class="form-group">
-                                                                            <label for="email">Price</label>
-                                                                            <input type="text" class="form-control" required name="price" id="price" aria-describedby="emailHelp" placeholder="Enter price">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="massage">Quantity</label>
-                                                                            <input type="text" class="form-control" required name="qty" id="qty" aria-describedby="emailHelp" placeholder="Enter Qty">
-                                                                        </div>
-
-
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                                </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal -->
-
-
-                                                </div>
-                                                <span>Sku: <span>{{ $product->sku }}</span>
-
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-                                        <form action="{{ route('cart.boynow') }}" method="POST">
-                                            @csrf
-                                            @if ($product->is_variable_product && count($product->subproductsuser) > 0)
-                                            @foreach ($product->attributes as $attribute)
-                                                <div class="row mt-2 pt-2 w-100 mb-2">
-                                                    <div class="form-group col-md-12 pl-0 ">
-                                                        <h5 class="ms-3">{{ str_replace('_', ' ', $attribute->name) }}</h4>
-                                                        <div class="btn-group ms-2" role="group">
-                                                            @foreach ($attribute->value as $value)
-                                                                <input type="radio"
-                                                                    class="btn-check {{ str_replace(' ', '_', $attribute->name) }}"
-                                                                    name="variable_attribute[{{ $attribute->name }}]"
-                                                                    id="{{ str_replace(' ', '_', $value) }}"
-                                                                    value="{{ $value }}" required
-                                                                    onclick="change_variable()">
-                                                                <label class="btn btn-outline-primary"
-                                                                    for="{{ str_replace(' ', '_', $value) }}">{{ str_replace('_', ' ', $value) }}</label>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                        <div class="ec-single-qty align-items-center">
-
-                                            <div class="ec-single-cart ">
-                                   
-                                                    <div class="ec-single-qty">
-
-                                                        <input type="hidden" class="" name="product_id" value="{{ $product->id }}" />
-
-                                                        <div class="qty-plus-minus">
-                                                            <input class="qty-input qty" type="text" name="quantity" value="1" />
-                                                        </div>
-                                              
-                                                        <div class="ec-single-cart ">
-                                                            <button class="btn btn-sm btn-dark" type="submit">Buy
-                                                                Now</button>
-                                                        </div>
-                                                        <div class="ec-single-cart ">
-                                                            @if (!in_array($product->id, session()->get('wishlist', [])))
-                                                            <a href="{{ route('wishlist.add', ['productId' => $product->id]) }}" class=" btn btn-outline-dark wishlist">Add to
-                                                                wishlist</i></a>
-                                                            @else
-                                                            <a href="{{ route('wishlist.remove', ['productId' => $product->id]) }}" class="btn btn-dark wishlist ">Remove from
-                                                                wishlist</a>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
+    <section class="breadscrumb-section ">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadscrumb-contain d-flex justify-content-between ">
+                        <h2>Creamy Chocolate Cake</h2>
+                        <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('homepage') }}">
+                                        <i class="fas fa-home"></i> Home
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active ps-0">/ Creamy Chocolate Cake</li>
+                            </ol>
+                        </nav>
                     </div>
                 </div>
-                <!-- Single product tab start -->
-                <div class="ec-single-pro-tab">
-                    <div class="ec-single-pro-tab-wrapper">
-                        <div class="ec-single-pro-tab-nav d-flex justify-content-center">
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#ec-spt-nav-details" role="tablist">Detail</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#ec-spt-nav-info" role="tablist">More Information</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#ec-spt-nav-review" role="tablist">Reviews</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-content  ec-single-pro-tab-content">
-                            <div id="ec-spt-nav-details" class="tab-pane fade show active">
-                                <div class="ec-single-pro-tab-desc">
-                                    <p>{!! $product->description !!}
-                                    </p>
+            </div>
+        </div>
+    </section>
 
+    <section class="product-section container-fluid mb-4">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp">
+                    <div class="row g-4">
+                        <div class="col-xl-6 wow fadeInUp" style="visibility: visible; animation-name: fadeInUp">
+                            <div class="product-left-box">
+                                <div class="row g-2">
+                                    <div class="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
+                                        <div class="product-main-2 no-arrow">
+                                            <!-- Slider Images -->
+                                            <div class="slider-image">
+                                                <img src="https://www.dreamhost.com/blog/wp-content/uploads/2019/06/afa314e6-1ae4-46c5-949e-c0a77f042e4f_DreamHost-howto-prod-descrips-full.jpeg"
+                                                    style="height: 350px" width="500px" id="img-1"
+                                                    data-zoom-image="https://www.dreamhost.com/blog/wp-content/uploads/2019/06/afa314e6-1ae4-46c5-949e-c0a77f042e4f_DreamHost-howto-prod-descrips-full.jpeg"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="slider-image">
+                                                <img src="./7up.png" style="height: 350px" width="500px" id="img-1"
+                                                    data-zoom-image="./7up.png"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="slider-image">
+                                                <img src="./7up.png" style="height: 350px" width="500px" id="img-1"
+                                                    data-zoom-image="./7up.png"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="slider-image">
+                                                <img src="./7up.png" style="height: 350px" width="500px" id="img-1"
+                                                    data-zoom-image="./7up.png"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="slider-image">
+                                                <img src="./7up.png" style="height: 350px" width="500px" id="img-1"
+                                                    data-zoom-image="./7up.png"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="slider-image">
+                                                <img src="./7up.png" style="height: 350px" width="500px" id="img-1"
+                                                    data-zoom-image="./7up.png"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="" />
+                                            </div>
+                                            <!-- Repeat for other images -->
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
+                                        <div class="left-slider-image-2 left-slider no-arrow slick-top">
+                                            <!-- Sidebar Images -->
+                                            <div class="sidebar-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="sidebar-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="sidebar-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="sidebar-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="sidebar-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyload" alt="" />
+                                            </div>
+                                            <div class="sidebar-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyload" alt="" />
+                                            </div>
+                                            <!-- Repeat for other images -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div id="ec-spt-nav-info" class="tab-pane fade">
-                                <div class="ec-single-pro-tab-moreinfo">
-                                    <ul>
-                                        <li><span>Weight</span> {{ $product->weight }}g</li>
-                                        <li><span>Dimensions</span> {{ $product->dimensions }} cm</li>
-                           
-                                        <li style="">
-                                           <span>Color</span>
-                                              {{ $product->color }}
-                                            
-                                        </li>
+                        </div>
+
+                        <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="product-details">
+                                <div class="product-header">
+                                    <h6 class="offer-top">30% Off</h6>
+                                    <h2 class="name">Creamy Chocolate Cake</h2>
+                                </div>
+                                <div class="d-flex align-items-baseline justify-content-between">
+                                    <div class="price-rating">
+                                        <h6 class="theme-color">
+                                            $49.50 <del class="text-content">$58.46</del>
+                                           
+                                        </h6>
+                                    </div>
+                                    <div class="product-rating custom-rate">
+                                        <ul class="rating">
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <span class="review">(23)</span>
+                                    </div>
+                                </div>
+                                <div class="product-description">
+                                    <p>
+                                        Lollipop cake chocolate chocolate cake dessert jujubes.
+                                        Shortbread sugar plum dessert powder cookie sweet
+                                        brownie. Cake cookie apple pie dessert sugar plum muffin
+                                        cheesecake.
+                                    </p>
+                                </div>
+                                <div class="product-actions">
+                                    <div class="cart-quantity">
+                                        <button type="button" class="qty-btn" data-type="minus">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input class="qty-input" type="text" name="quantity" value="0" />
+                                        <button type="button" class="qty-btn me-2" data-type="plus">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <button onclick="location.href = 'cart.html';"
+                                        class="btn btn-md bg-dark cart-button text-white">
+                                        Add To Cart
+                                    </button>
+                                </div>
+                                <div class="product-options">
+                                    <a href="wishlist.html"><i class="fas fa-heart"></i>
+                                        <span>Add To Wishlist</span></a>
+                                </div>
+                                <div class="store-info">
+                                    <div class="product-title">
+                                        <h4>Product Information</h4>
+                                    </div>
+
+                                    <ul class="product-info-list product-info-list-2">
+
+                                        <li>SKU: <span>SDFVW65467</span></li>
+
+                                        <li>Stock: <span>2 Items Left</span></li>
                                         <li>
-                                            <span>
-                                                Sizes
-                                            </span>
-                                             {{ $product->sizes }}
-                                        
+                                            Tags: <a href="javascript:void(0)">Cake,</a>
+                                            <a href="javascript:void(0)">Bakery</a>
                                         </li>
-
-                                      
-
-
                                     </ul>
                                 </div>
                             </div>
+                        </div>
 
-                            <div id="ec-spt-nav-review" class="tab-pane fade">
-                                <div class="row">
-                                    <div class="ec-t-review-wrapper">
-                                        @foreach ($product->ratings as $rating)
-                                        <div class="ec-t-review-item">
-                                            <div class="ec-t-review-avtar">
-                                                <img src="{{ asset('assets/img/single_product/person.png') }}" alt="" />
+                        <div class="col-12">
+                            <div class="product-section-box">
+                                <ul class="nav nav-tabs custom-nav d-flex justify-content-center" id="myTab"
+                                    role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
+                                            data-bs-target="#description" type="button" role="tab"
+                                            aria-controls="description" aria-selected="true">
+                                            Description
+                                        </button>
+                                    </li>
+
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="info-tab" data-bs-toggle="tab"
+                                            data-bs-target="#info" type="button" role="tab" aria-controls="info"
+                                            aria-selected="false">
+                                            Additional info
+                                        </button>
+                                    </li>
+
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                                            data-bs-target="#review" type="button" role="tab"
+                                            aria-controls="review" aria-selected="false">
+                                            Review
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content custom-tab" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="description" role="tabpanel"
+                                        aria-labelledby="description-tab">
+                                        <div class="product-description">
+                                            <div class="nav-desh">
+                                                <p>
+                                                    Jelly beans carrot cake icing biscuit oat cake
+                                                    gummi bears tart. Lemon drops carrot cake pudding
+                                                    sweet gummi bears. Chocolate cake tart cupcake
+                                                    donut topping liquorice sugar plum chocolate bar.
+                                                    Jelly beans tiramisu caramels jujubes biscuit
+                                                    liquorice chocolate. Pudding toffee jujubes oat
+                                                    cake sweet roll. Lemon drops dessert croissant
+                                                    danish cake cupcake. Sweet roll candy chocolate
+                                                    toffee jelly sweet roll halvah brownie topping.
+                                                    Marshmallow powder candy sesame snaps jelly beans
+                                                    candy canes marshmallow gingerbread pie.
+                                                </p>
                                             </div>
-                                            <div class="ec-t-review-content">
-                                                <div class="ec-t-review-top">
-                                                    <div class="ec-t-review-name">{{ $rating->name }}</div>
-                                                    <div class="ec-t-review-rating">
-                                                        <input name="rating" type="number" value="{{ $rating->rating }}" class="rating published_rating" data-size="sm">
+
+                                            <div class="nav-desh">
+                                                <div class="desh-title">
+                                                    <h5>Organic:</h5>
+                                                </div>
+                                                <p>
+                                                    vitae et leo duis ut diam quam nulla porttitor
+                                                    massa id neque aliquam vestibulum morbi blandit
+                                                    cursus risus at ultrices mi tempus imperdiet nulla
+                                                    malesuada pellentesque elit eget gravida cum
+                                                    sociis natoque penatibus et magnis dis parturient
+                                                    montes nascetur ridiculus mus mauris vitae
+                                                    ultricies leo integer malesuada nunc vel risus
+                                                    commodo viverra maecenas accumsan lacus vel
+                                                    facilisis volutpat est velit egestas dui id ornare
+                                                    arcu odio ut sem nulla pharetra diam sit amet nisl
+                                                    suscipit adipiscing bibendum est ultricies integer
+                                                    quis auctor elit sed vulputate mi sit amet mauris
+                                                    commodo quis imperdiet massa tincidunt nunc
+                                                    pulvinar sapien et ligula ullamcorper malesuada
+                                                    proin libero nunc consequat interdum varius sit
+                                                    amet mattis vulputate enim nulla aliquet porttitor
+                                                    lacus luctus accumsan.
+                                                </p>
+                                            </div>
+
+                                            <div class="banner-contain nav-desh">
+                                                <img src="../assets/images/vegetable/banner/14.jpg"
+                                                    class="bg-img blur-up lazyload" alt="" />
+                                                <div class="banner-details p-center banner-b-space w-100 text-center">
+                                                    <div>
+                                                        <h6 class="ls-expanded theme-color mb-sm-3 mb-1">
+                                                            SUMMER
+                                                        </h6>
+                                                        <h2>VEGETABLE</h2>
+                                                        <p class="mx-auto mt-1">Save up to 5% OFF</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="nav-desh">
+                                                <div class="desh-title">
+                                                    <h5>From The Manufacturer:</h5>
+                                                </div>
+                                                <p>
+                                                    Jelly beans shortbread chupa chups carrot cake
+                                                    jelly-o halvah apple pie pudding gingerbread.
+                                                    Apple pie halvah cake tiramisu shortbread cotton
+                                                    candy croissant chocolate cake. Tart cupcake
+                                                    caramels gummi bears macaroon gingerbread
+                                                    fruitcake marzipan wafer. Marzipan dessert cupcake
+                                                    ice cream tootsie roll. Brownie chocolate cake
+                                                    pudding cake powder candy ice cream ice cream
+                                                    cake. Jujubes soufflé chupa chups cake candy
+                                                    halvah donut. Tart tart icing lemon drops
+                                                    fruitcake apple pie.
+                                                </p>
+
+                                                <p>
+                                                    Dessert liquorice tart soufflé chocolate bar apple
+                                                    pie pastry danish soufflé. Gummi bears halvah
+                                                    gingerbread jelly icing. Chocolate cake chocolate
+                                                    bar pudding chupa chups bear claw pie dragée donut
+                                                    halvah. Gummi bears cookie ice cream jelly-o
+                                                    jujubes sweet croissant. Marzipan cotton candy
+                                                    gummi bears lemon drops lollipop lollipop
+                                                    chocolate. Ice cream cookie dragée cake sweet roll
+                                                    sweet roll.Lemon drops cookie muffin carrot cake
+                                                    chocolate marzipan gingerbread topping chocolate
+                                                    bar. Soufflé tiramisu pastry sweet dessert.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="info" role="tabpanel"
+                                        aria-labelledby="info-tab">
+                                        <div class="table-responsive">
+                                            <table class="table info-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Specialty</td>
+                                                        <td>Vegetarian</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ingredient Type</td>
+                                                        <td>Vegetarian</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Brand</td>
+                                                        <td>Lavian Exotique</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Form</td>
+                                                        <td>Bar Brownie</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Package Information</td>
+                                                        <td>Box</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Manufacturer</td>
+                                                        <td>Prayagh Nutri Product Pvt Ltd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Item part number</td>
+                                                        <td>LE 014 - 20pcs Crème Bakes (Pack of 2)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Net Quantity</td>
+                                                        <td>40.00 count</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="review" role="tabpanel"
+                                        aria-labelledby="review-tab">
+                                        <div class="review-box">
+                                            <div class="row g-4">
+                                                <div class="col-xl-12">
+                                                    <div class="review-title">
+                                                        <h4 class="fw-500 m-2">Add a review</h4>
+                                                    </div>
+
+                                                    <div class="row g-4">
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="text" class="form-control" id="name"
+                                                                    placeholder="Name" />
+                                                                <label for="name">Your Name</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="email" class="form-control" id="email"
+                                                                    placeholder="Email Address" />
+                                                                <label for="email">Email Address</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="url" class="form-control" id="website"
+                                                                    placeholder="Website" />
+                                                                <label for="website">Website</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="url" class="form-control" id="review1"
+                                                                    placeholder="Give your review a title" />
+                                                                <label for="review1">Review Title</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px"></textarea>
+                                                                <label for="floatingTextarea2">Write Your Comment</label>
+                                                                <div class="text-end mt-2">
+                                                                    <button class="btn btn-success text-center">
+                                                                        Submit
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="ec-t-review-bottom">
-                                                    <p>
-                                                        {{ $rating->review }}
-                                                    </p>
+                                                <div class="col-12">
+                                                    <div class="review-title">
+                                                        <h4 class="fw-500">
+                                                            Customer questions & answers
+                                                        </h4>
+                                                    </div>
+                                                    <hr />
+                                                    <div class="review-people">
+                                                        <ul class="review-list">
+                                                            <li>
+                                                                <div class="people-box">
+                                                                    <div>
+                                                                        <div class="people-image">
+                                                                            <img src="./0_7up-Flat-Product-Image.png"
+                                                                                class="img-fluid blur-up lazyload"
+                                                                                alt="" />
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="people-comment">
+                                                                        <a class="name"
+                                                                            href="javascript:void(0)">Tracey</a>
+                                                                        <div class="date-time">
+                                                                            <h6 class="text-content">
+                                                                                14 Jan, 2022 at 12.58 AM
+                                                                            </h6>
+
+                                                                            <div class="product-rating">
+                                                                                <ul class="rating">
+                                                                                    <li>
+                                                                                        <i class="fas fa-star fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i class="fas fa-star fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i class="fas fa-star fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i class="fas fa-star fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i class="fas fa-star"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="reply">
+                                                                            <p>
+                                                                                Icing cookie carrot cake chocolate
+                                                                                cake sugar plum jelly-o danish.
+                                                                                Dragée dragée shortbread tootsie
+                                                                                roll croissant muffin cake I love
+                                                                                gummi bears. Candy canes ice cream
+                                                                                caramels tiramisu marshmallow cake
+                                                                                shortbread candy canes cookie.
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        @endforeach
-
-
                                     </div>
-                                    @php
-                                    $user = Auth()->id();
-                                    $order = App\Models\Order::where('product_id', $product->id)
-                                    ->where('user_id', $user)
-                                    ->get();
-                                    $rating = App\Models\Rating::where('user_id', $user)
-                                    ->where('product_id', $product->id)
-                                    ->get();
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                                    @endphp
-                                    @if (Auth::check())
-                                    @if ($order->count() > 0 && $rating->count() == 0)
-                                    <div class="ec-ratting-content">
-                                        <h3>Add a Review</h3>
-                                        <div class="ec-ratting-form">
-                                            <form action="{{ route('rating', ['product_id' => $product->id]) }}" method="POST">
-                                                @csrf
-                                                <div class="ec-ratting-star">
-                                                    <span>Your rating:</span>
-                                                    <input value="1" name="rating" class="rating product_rating" data-size="xs">
-                                                </div>
-                                                <div class="ec-ratting-input">
-                                                    <input name="name" placeholder="Name" class="@error('name') is-invalid @enderror" placeholder="Your Name" type="text" />
-                                                </div>
-                                                @error('name')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                                <div class="ec-ratting-input">
-                                                    <input name="email" placeholder="Email*" class="@error('email') is-invalid @enderror" placeholder="Your Email" type="email" required />
-                                                </div>
-                                                @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-
-                                                <div class="ec-ratting-input form-submit">
-                                                    <textarea name="review" placeholder="Enter Your Comment"></textarea>
-                                                    <button class="btn btn-dark" type="submit" value="Submit">Submit</button>
-                                                </div>
-                                            </form>
+                <div class="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block wow fadeInUp">
+                    <div class="right-sidebar-box pt-0">
+                        <div class="vendor-box">
+                            <div class="vendor-contain">
+                                <div class="vendor-image">
+                                    <img src="https://static.dezeen.com/uploads/2023/03/7up-rebrands-uplifting-pepsico_dezeen_2364_hero_14-600x600.jpg"
+                                        class="blur-up lazyload" alt="Vendor Image" />
+                                </div>
+                                <div class="vendor-name">
+                                    <h5 class="fw-500">Noodles Co.</h5>
+                                    <div class="product-rating mt-1">
+                                        <ul class="rating">
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star fill"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <span>(36 Reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="vendor-detail">
+                                Noodles & Company is an American fast-casual restaurant that
+                                offers international and American noodle dishes and pasta.
+                            </p>
+                            <div class="vendor-list">
+                                <ul>
+                                    <li>
+                                        <div class="address-contact">
+                                            <i data-feather="map-pin"></i>
+                                            <h5>
+                                                Address:
+                                                <span class="text-content">1288 Franklin Avenue</span>
+                                            </h5>
                                         </div>
-                                    </div>
-                                    @endif
-                                    @endif
-
-                                </div>
+                                    </li>
+                                    <li>
+                                        <div class="address-contact">
+                                            <i data-feather="headphones"></i>
+                                            <h5>
+                                                Contact Seller:
+                                                <span class="text-content">(+1)-123-456-789</span>
+                                            </h5>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- product details description area end -->
-</section>
-<!-- End Single product -->
-
-<!-- Related Product Start -->
-<section class="section ec-new-product " style="margin-bottom: 100px">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-left">
-                <div class="section-title">
-
-                    <h2 class="related-product-sec-title"> Related products</h2>
-                </div>
-                <div class="ec-spe-section  data-animation=" slideInLeft">
-
-
-                    <div class="ec-spe-products">
-                        @foreach ($related_products->chunk(6) as $products)
-                        <div class="ec-fs-product">
-                            <div class="ec-fs-pro-inner">
-
-                                <div class="row margin-minus-b-30">
-                                    <!-- Related Product Content -->
-                                    @foreach ($products as $product)
-                                    <x-products.product-2 :product="$product" />
-                                    @endforeach
-
-
-
-                                </div>
-
+                        <div class="pt-25">
+                            <div class="category-menu">
+                                <h3>Trending Products</h3>
+                                <ul class="product-list product-right-sidebar border-0 p-0">
+                                    <li>
+                                        <div class="offer-product">
+                                            <a href="#" class="offer-image">
+                                                <img src="https://www.dreamhost.com/blog/wp-content/uploads/2019/06/afa314e6-1ae4-46c5-949e-c0a77f042e4f_DreamHost-howto-prod-descrips-full.jpeg"
+                                                    class="img-fluid blur-up lazyload" alt="Product Image" />
+                                            </a>
+                                            <div class="offer-detail">
+                                                <div>
+                                                    <a href="#">
+                                                        <h6 class="name">Meatigo Premium Goat Curry</h6>
+                                                    </a>
+                                                    <span>450 G</span>
+                                                    <h6 class="price theme-color">$ 70.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- Other product items go here -->
+                                </ul>
                             </div>
                         </div>
-                        @endforeach
+
 
                     </div>
                 </div>
-
-
-
             </div>
         </div>
-        <!-- New Product Content -->
-
-    </div>
-</section>
-
-
-
-
-
-<!-- Related Product end -->
-<!-- Related Product end -->
-@endsection
+    </section>
 @section('js')
-<script src="{{ asset('assets/frontend-assets/js/vendor/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('assets/frontend-assets/js/plugins/slick.min.js') }}"></script>
-<script src="{{ asset('assets/frontend-assets/js/plugins/jquery.sticky-sidebar.js') }}"></script>
-
-<script src="{{ asset('assets/frontend-assets/js/main.js') }}"></script>
-{{-- <script src="{{ asset('assets/js/star-rating.js') }}"></script>
-
-<script>
-    $("#product_rating").rating({
-        showCaption: true
-    });
-    $(".published_rating").rating({
-        showCaption: false,
-        readonly: true,
-    });
-</script> --}}
+    <script src="{{ asset('assets/js/slick/slick.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/slick-animation.min.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/custom-slick-animated.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/wow.min.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/custom-wow.js') }}"></script>
 @endsection
+@stop

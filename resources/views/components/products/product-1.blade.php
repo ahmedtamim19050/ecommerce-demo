@@ -28,7 +28,7 @@
         <div class="product-footer">
             <div class="product-detail">
                 <span class="span-name">Vegetable</span>
-                <a href="product-left-thumbnail.html">
+                <a href="{{ route('product_details') }}">
                     <h5 class="name">
                         Peanut Butter Bite Premium Butter Cookies 600 g
                     </h5>
