@@ -1,247 +1,115 @@
 @extends('layouts.app')
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/frontend-assetss/responsive.css') }}" />
-    <link rel="stylesheet" id="bg-switcher-css" href="{{ asset('assets/frontend-assetss/css/backgrounds/bg-4.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/shops.css') }}">
+  
     <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
 @endsection
 @section('content')
-    <x-app.header />
-    <!-- Ec cart page -->
-
-    <section class="ec-page-content">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="ec-cart-leftside col-lg-7 col-md-12">
-                    <!-- cart content Start -->
-                    <div class="row justify-content-center mb-2">
-                        @php
-                            $items = Cart::getContent();
-                        
-                            $groupedItems = $items->groupBy(function ($item) {
-                                return $item->model->shop_id;
-                            });
-                        @endphp
-
-                        @if (Cart::getTotalQuantity() > 0)
-                            <div class="ec-cart-content">
-                                <div class="ec-cart-inner">
-                                    <h4 class="p-1 cart-heading">{{ Cart::getTotalQuantity() }} items in your cart</h4>
-                                    @if (Cart::getTotalQuantity() > 0)
-                                        <div class="row">
-
-
-                                            @foreach ($groupedItems as $shopId => $items)
-                                                <div>
-                                                    <div class="d-flex mb-2 align-items-center">
-                                                        <img height="54" width="64"
-                                                            src="{{ Storage::url($items[0]->model->shop->logo) }}"
-                                                            alt="">
-                                                        <h5>
-
-                                                            <a href="{{ route('store_front', $items[0]->model->shop->slug) }}"
-                                                                class="mb-2"><u>{{ $items[0]->model->shop->name }}</u>
-                                                            </a>Cart
-                                                        </h5>
-
-                                                    </div>
-
-                                                    @foreach ($items as $item)
-                                                        <div class="cart-item card rounded-4 mb-4">
-                                                            <div class="card-body row box-shadow">
-                                                                {{-- <div class="col-md-1 ">
-                                                                    <div
-                                                                        class="w-100 h-100 d-flex justify-content-center align-items-center">
-                                                                        <input type="checkbox" class="cart-item-checkbox">
-                                                                    </div>
-                                                                </div> --}}
-
-                                                                <div class="col-md-3 center">
-                                                                    <img class="cart-item-image"
-                                                                        src="{{ Storage::url($item->model->image) }}"
-                                                                        alt="">
-                                                                </div>
-                                                   
-                                                                <div class="col-md-5  cart-item-text">
-                                                                    <h1 class="font-size">{{ $item->name }}</h1>
-                                                                    <p class="item-title">
-                                                                        {{ Str::limit(strip_tags($item->model->short_description), $limit = 50, $end = '...') }}
-                                                                    </p>
-                                                                    <a href="">
-
-                                                                        @if ($item->model->quantity)
-                                                                            <span class="text-success">In Stok</span>
-                                                                        @else
-                                                                            <span class="text-danger">Out of stock</span>
-                                                                        @endif
-
-                                                                    </a>
-                                                               
-
-                                                                    <form action="{{ route('cart.update') }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                
-                                                                       
-                                                                        @if($item->attributes[0] == 'no_offer')
-                                                                        <input type="hidden" name="product_id"
-                                                                            value="{{ $item->id }}" />
-                                                                        <div class="col-3 mb-3 d-flex ">
-                                                                            <input type="text" name="quantity"
-                                                                                value="{{ $item->quantity }}"
-                                                                                class="cart-input-stock " id="">
-                                                                            <button type="submit"
-                                                                                class="ms-2"><u>Update</u></button>
-                                                                        </div>
-                                                                        @endif
-                                                                   
-                                                                        <a
-                                                                            href="{{ route('cart.destroy', $item->id) }}" onclick="return confirm('Are you sure you want to delete this item?');"><u>remove</u></a>
-                                                                    </form>
-
-                                                                </div>
-                                                                <div
-                                                                    class="col-md-3 justify-content-center align-item-center mt-3">
-                                                                    <h1 class="cart-text">
-                                                                        {{ Sohoj::price($item->price) }}</h1>
-                                                                    {{-- <a class="cart-send-color" href="#">Send Offer?</a> --}}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-
-
-                                                </div>
-                                            @endforeach
-
-
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-
-                    </div>
-
-                    <div class="hr">
-
-                    </div>
-
-                    <!--cart content End -->
-                </div>
-                <!-- Sidebar Area Start -->
-                <div class="ec-cart-rightside col-lg-4 col-md-12 " style="margin-top: 40px;">
-                    <div class="ec-sidebar-wrap">
-                        <!-- Sidebar Summary Block -->
-                        <div class="ec-sidebar-block mt-5 side-bar-box ">
-
-                            <div class="ec-sb-block-content">
-                                <div class="ec-cart-summary-bottom">
-                                    <div class="ec-cart-summary p-4">
-
-                                        <div>
-                                            <span class="text-left">Total ({{ Cart::getTotalQuantity() }} items)</span>
-                                            <span class="text-right">{{ Sohoj::price(Sohoj::newSubtotal()) }}</span>
-                                        </div>
-                                        {{-- <div>
-                                            <span class="text-left">Delivery Charges</span>
-                                            <span class="text-right">$20.00</span>
-                                        </div> --}}
-                                        @if (!session()->has('discount'))
-                                            <div>
-                                                <span class="text-left">Coupan Discount</span>
-                                                <span class="text-right"><a class="ec-cart-coupan">Apply Coupan</a></span>
-                                            </div>
-
-                                            <div class="ec-cart-coupan-content">
-                                                <form class="ec-cart-coupan-form" name="ec-cart-coupan-form" method="POST"
-                                                    action="{{ route('coupon') }}">
-                                                    @csrf
-
-                                                    <input class="ec-coupan bg-white" type="text" required=""
-                                                        placeholder="Enter Your Coupan Code" name="coupon_code"
-                                                        value="">
-                                                    <button class="ec-coupan-btn button btn-dark" type="submit"
-                                                        name="subscribe" value="">Apply</button>
-                                                </form>
-                                            </div>
-                                        @endif
-                                        <div class="ec-cart-summary-total">
-                                            <span class="text-left">Total Amount</span>
-                                            <span class="text-right">{{ Sohoj::price(Sohoj::newSubtotal()) }}</span>
-                                        </div>
-                                        <a href="{{ route('checkout') }}" class="checkout-btn">Proceed to Checkout</a>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <!-- Sidebar Summary Block -->
-                        {{-- <h3 class="text-center">have a question? <a class="message-color" href=""> Message </a>
-                            Seller</h3> --}}
-                    </div>
-                </div>
-            </div>
-        @else
-            <div class=" col-md-12  m-5">
-                <h3>No product has been added to cart. <a class="text-primary" href="{{ route('homepage') }}">Continue
-                        Shopping</a></h3>
-            </div>
-            @endif
-
-         
-
-
-        </div>
-    </section>
-
-    <!-- New Product Start -->
-    <section class="section ec-new-product">
-        <div class="container">
+    <section class="mt-4">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12 text-left">
-                    <div class="section-title">
-
-                        <h2 class="related-product-sec-title"> Explore Similer Shops</h2>
-                    </div>
-                    <div class="ec-spe-section  data-animation=" slideInLeft">
-
-
-                        <div class="ec-spe-products">
-                            @foreach ($latest_shops->chunk(4) as $shop)
-                                <div class="ec-fs-product">
-                                    <div class="ec-fs-pro-inner">
-
-                                        <div class="row">
-
-                                            @foreach ($shop as $shop)
-                                                <x-shops-card.card-2 :shop="$shop" />
-                                            @endforeach
-
+                <div class="col-md-8 col-12">
+                    <div class="tables">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="product-detail">
+                                        <div class="product border-0">
+                                            <a href="" class="product-image">
+                                                <img src="./7up.png" class="img-fluid blur-up lazyloaded" alt="" />
+                                            </a>
+                                            <div class="product-details">
+                                                <ul>
+                                                    <li class="name">
+                                                        <a href="" class="">Product Name</a>
+                                                    </li>
+                                                    <li class="text-content">
+                                                        <span>Sold By: </span>Buyer Name
+                                                    </li>
+                                                    <li class="text-content">
+                                                        <span>Weight: </span> Weight
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
+                                    </td>
+                                    <td class="price">
+                                        <h4 class="table-title text-content">Price</h4>
+                                        <h5>$35 <del class="text-content ms-1">$45</del></h5>
+                                    </td>
+                                    <td class="qty">
+                                        <h4 class="table-title text-content">Qty</h4>
+                                        <form action="">
+                                            <input type="text" name="" class="form-control" />
+                                        </form>
+                                    </td>
+                                    <td class="total">
+                                        <h4 class="table-title text-content">Total</h4>
+                                        <h5>$35</h5>
+                                    </td>
+                                    <td class="action">
+                                        <h4 class="table-title text-content">Action</h4>
+                                        <a class="btn btn-danger" href="">Remove</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="cart-box p-2">
+                        <div class="cart-header">
+                            <h4>Cart Total</h4>
+                        </div>
+                        <div class="cart-contain">
+                            <div class="couppon">
+                                <h6 class="text-content mb-2">Couppon Apply</h6>
+                                <form action="" class="mb-3 input-group coupon-box">
+                                    <input type="text" class="form-control" />
+                                    <button class="btn btn-success">Apply</button>
+                                </form>
+                            </div>
+                            <ul class="p-0">
+                                <li class="d-flex">
+                                    <h4>Subtotal</h4>
+                                    <h4 class="price text-end">$123</h4>
+                                </li>
+                                <li class="d-flex">
+                                    <h4>Couppon Discount</h4>
+                                    <h4 class="price text-end">$123</h4>
+                                </li>
+                                <li class="d-flex">
+                                    <h4>Shipping</h4>
+                                    <h4 class="price text-end">$123</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="cart-total px-3">
+                            <li class="list-total border-top-0">
+                                <h4>Total (USD)</h4>
+                                <h4 class="price theme-color">$132.58</h4>
+                            </li>
+                        </ul>
+                        <div class="button-group cart-button">
+                            <ul class="p-0">
+                                <li>
+                                    <button onclick="location.href = 'checkout.html';"
+                                        class="btn btn-animation proceed-btn fw-bold mb-2">
+                                        Process To Checkout
+                                    </button>
+                                </li>
 
-                                    </div>
-                                </div>
-                            @endforeach
+                                <li>
+                                    <button onclick="location.href = 'index.html';"
+                                        class="btn btn-light shopping-button text-dark">
+                                        <i class="fa-solid fa-arrow-left-long"></i>Return To
+                                        Shopping
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
-            <!-- New Product Content -->
-
         </div>
     </section>
-    <!-- New Product end -->
-@endsection
-@section('js')
-    <script src="{{ asset('assets/frontend-assets/js/vendor/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('assets/frontend-assets/js/plugins/jquery.sticky-sidebar.js') }}"></script>
-
-    <script src="{{ asset('assets/frontend-assets/js/main.js') }}"></script>
 @endsection
