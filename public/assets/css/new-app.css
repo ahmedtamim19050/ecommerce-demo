@@ -213,3 +213,6 @@ footer {
     font-size: 16px;
   }
 }
+.theme-bg-color {
+  background: #0da487 !important;
+}

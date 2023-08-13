@@ -92,10 +92,10 @@
                         <div class="button-group cart-button">
                             <ul class="p-0">
                                 <li>
-                                    <button onclick="location.href = 'checkout.html';"
+                                    <a href = '{{route("checkout")}}'
                                         class="btn btn-animation proceed-btn fw-bold mb-2">
                                         Process To Checkout
-                                    </button>
+                                </a>
                                 </li>
 
                                 <li>
