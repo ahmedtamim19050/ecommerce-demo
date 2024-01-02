@@ -67,7 +67,7 @@
     <main>
         @yield('content')
     </main>
-    <footer class="section-t-space bg-light">
+    <footer class="section-t-space bg-light mt-3">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">

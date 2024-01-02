@@ -27,52 +27,35 @@ class PageController extends Controller
                 $postcode = Session::get('location.postcode');
                 $q->whereIn('post_code', $postcode);
             })
-            ->latest()->limit(24)->whereNull('parent_id')->get();
-        $bestsaleproducts = Product::orderBy('total_sale', 'desc')
-            ->whereHas('shop', function ($q) {
-                $q->where('status', 1);
-            })
-            ->when(Session::has('location'), function ($q) {
-                $postcode = Session::get('location.postcode');
-                $q->whereIn('post_code', $postcode);
-            })
-            ->latest()->limit(16)->whereNull('parent_id')->get();
-
-        $recommand = session()->get('recommand', []);
-        $recommandProducts = Product::whereNull('parent_id')->whereIn('id', $recommand)->get();
-
+            ->latest()->limit(12)->whereNull('parent_id')->get();
         $latest_shops =  Shop::where("status", 1)->whereHas('products', function ($query) {
             $query->whereNull('parent_id');
         })->latest()->limit(8)->get();
         $prodcats = Prodcat::with('childrens')->where('parent_id', null)->get();
         $sliders = Slider::latest()->get();
 
-        return view('pages.home', compact('latest_products', 'bestsaleproducts', 'latest_shops', 'prodcats', 'sliders', 'recommandProducts'));
+        return view('pages.home', compact('latest_products', 'latest_shops', 'prodcats', 'sliders'));
     }
     public function shops()
     {
         $products = Product::where("status", 1)->limit(12)->whereNull('parent_id')->whereHas('shop', function ($q) {
-                $q->where('status', 1);
-            })->filter()->get();
+            $q->where('status', 1);
+        })->filter()->get();
         $categories = Prodcat::has('products')->latest()->get();
 
 
         return view('pages.shops', compact('products', 'categories'));
     }
-    public function product_details()
+    public function product_details($slug)
     {
-        // $product = Product::where('slug', $slug)->firstOrFail();
-        // $related_products = Product::whereNull('parent_id')->limit(16)->get();
-        // $product->increment('views');
+        $product = Product::where('slug', $slug)->firstOrFail();
+        $shopProducts = $product->shop->products()
+            ->where('id', '!=', $product->id)
+            ->latest()
+            ->limit(2)
+            ->get();
 
-
-        // $recommand = session()->get('recommand', []);
-
-        // if (!in_array($product->id, $recommand)) {
-        //     $recommand[] = $product->id;
-        //     session()->put('recommand', $recommand);
-        // }
-        return view('pages.product_details');
+        return view('pages.product_details', compact('product', 'shopProducts'));
     }
     public function cart()
     {

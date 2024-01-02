@@ -3,7 +3,7 @@
   border-radius: 16px;
   overflow: hidden;
   background-color: #f0f0f0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   transition: transform 0.3s ease;
   border: none;
 }
@@ -25,7 +25,7 @@
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border: 4px solid #fff;
-  background-color: #53c5ab;
+  background-color: transparent;
 }
 
 .nature-since-number {
@@ -37,7 +37,7 @@
 
 .nature-seller-name {
   margin-top: 20px;
-  font-size: 24px;
+  font-size: 15px;
   color: #222;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -46,6 +46,7 @@
 
 .nature-product-categories {
   margin-top: 15px;
+  margin-bottom: 15px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

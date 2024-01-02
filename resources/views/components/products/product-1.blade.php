@@ -2,24 +2,14 @@
     <div class="product-box-3 h-100 wow fadeInUp" data-wow-delay="0.05s">
         <div class="product-header">
             <div class="product-image">
-                <a href="product-left-thumbnail.html">
-                    <img src="https://www.dreamhost.com/blog/wp-content/uploads/2019/06/afa314e6-1ae4-46c5-949e-c0a77f042e4f_DreamHost-howto-prod-descrips-full.jpeg"
-                        class="img-fluid blur-up lazyload" alt="Product Image" />
+                <a href="{{ route('product_details', $product->slug) }}">
+                    <img src="{{ Storage::url($product->image) }}" class="img-fluid blur-up lazyload"
+                        alt=" {{ $product->name }}" />
                 </a>
                 <ul class="product-option">
-                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#view">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                    </li>
-                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
-                        <a href="compare.html">
-                            <i class="fas fa-sync-alt"></i>
-                        </a>
-                    </li>
                     <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
                         <a href="wishlist.html" class="notifi-wishlist">
-                            <i class="fas fa-heart"></i>
+                            <i class="fa-regular fa-heart" style="color: #ff4500;"></i>
                         </a>
                     </li>
                 </ul>
@@ -27,10 +17,10 @@
         </div>
         <div class="product-footer">
             <div class="product-detail">
-                <span class="span-name">Vegetable</span>
-                <a href="{{ route('product_details') }}">
+                <span class="span-name">{{ $product->type }}</span>
+                <a href="{{ route('product_details', $product->slug) }}">
                     <h5 class="name">
-                        Peanut Butter Bite Premium Butter Cookies 600 g
+                        {{ $product->name }}
                     </h5>
                 </a>
 
@@ -54,10 +44,10 @@
                     </ul>
                     <span>(4.5)</span>
                 </div>
-                <h6 class="unit">350 G</h6>
+                <h6 class="unit">{{ $product->weight }}</h6>
                 <h5 class="price">
-                    <span class="theme-color">$04.33</span>
-                    <del>$10.36</del>
+                    <span class="theme-color">{{ Sohoj::price($product->sale_price) }}</span>
+                    <del>{{ Sohoj::price($product->price) }}</del>
                 </h5>
                 <div class="add-to-cart-box bg-white">
                     <a class="btn btn-add-cart addcart-button " href="{{ route('cart') }}" style="width: 100%">

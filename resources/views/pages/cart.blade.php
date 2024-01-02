@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('css')
-  
     <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
 @endsection
 @section('content')
@@ -15,7 +14,8 @@
                                     <td class="product-detail">
                                         <div class="product border-0">
                                             <a href="" class="product-image">
-                                                <img src="./7up.png" class="img-fluid blur-up lazyloaded" alt="" />
+                                                <img src="{{ asset('assets/img/store_front/sound.png') }}"
+                                                    class="img-fluid blur-up lazyloaded" alt="" />
                                             </a>
                                             <div class="product-details">
                                                 <ul>
@@ -48,7 +48,7 @@
                                     </td>
                                     <td class="action">
                                         <h4 class="table-title text-content">Action</h4>
-                                        <a class="btn btn-danger" href="">Remove</a>
+                                        <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -92,14 +92,13 @@
                         <div class="button-group cart-button">
                             <ul class="p-0">
                                 <li>
-                                    <a href = '{{route("checkout")}}'
-                                        class="btn btn-animation proceed-btn fw-bold mb-2">
+                                    <a href = '{{ route('checkout') }}' class="btn btn-animation proceed-btn fw-bold mb-2">
                                         Process To Checkout
-                                </a>
+                                    </a>
                                 </li>
 
                                 <li>
-                                    <button onclick="location.href = 'index.html';"
+                                    <button onclick="location.href = '{{ route('homepage') }}';"
                                         class="btn btn-light shopping-button text-dark">
                                         <i class="fa-solid fa-arrow-left-long"></i>Return To
                                         Shopping

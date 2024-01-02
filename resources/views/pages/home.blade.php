@@ -62,20 +62,9 @@
             <div class="product-border border-row">
                 <div class="slider-6_2 no-arrow">
                     <div class="row">
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-                        <x-products.product-1 />
-
-
+                        @foreach ($latest_products as $product)
+                            <x-products.product-1 :product="$product" />
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -92,16 +81,10 @@
             <div class="product-border border-row">
                 <div class="slider-6_2 no-arrow">
                     <div class="row">
-                        <x-shops-card.card-1 />
-                        <x-shops-card.card-1 />
-                        <x-shops-card.card-1 />
-                        <x-shops-card.card-1 />
-                        <x-shops-card.card-1 />
-
-                        <x-shops-card.card-1 />
-                        <x-shops-card.card-1 />
-                        <x-shops-card.card-1 />
-
+                        @foreach ($latest_shops as $shop)
+                        {{-- @dd($shop) --}}
+                            <x-shops-card.card-1 :shop="$shop" />
+                        @endforeach
 
                     </div>
                 </div>

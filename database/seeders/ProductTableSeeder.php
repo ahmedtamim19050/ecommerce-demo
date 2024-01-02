@@ -59,11 +59,17 @@ class ProductTableSeeder extends Seeder
             'products/4.png',
             'products/5.png',
         ];
-
+        $fastFoodTitles = [
+            'Super Burger Deluxe',
+            'Crispy Chicken Combo',
+            'Cheesy Pizza Feast',
+            'Tasty Taco Trio',
+            'Sizzling Hot Dog Special',
+        ];
         foreach ($imagePaths as $imagePath) {
             $data[] = [
-                'shop_id' => rand(1, 5),
-                'name' => fake()->name(),
+                'shop_id' => rand(11, 15),
+                'name' => $fastFoodTitles[array_rand($fastFoodTitles)],
                 'slug' => fake()->unique()->slug(),
                 'type' => fake()->word(5),
                 'featured' => false,
