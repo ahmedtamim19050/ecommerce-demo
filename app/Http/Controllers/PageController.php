@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cart;
 use App\Models\Address;
 use App\Models\Email;
 use App\Models\Order;
@@ -59,11 +60,12 @@ class PageController extends Controller
     }
     public function cart()
     {
+        $cartCollection = Cart::getContent();
         $latest_shops =  Shop::where("status", 1)
             ->whereHas('products', function ($query) {
                 $query->whereNull('parent_id');
             })->latest()->limit(8)->get();
-        return view('pages.cart', compact('latest_shops'));
+        return view('pages.cart', compact('latest_shops', 'cartCollection'));
     }
 
 

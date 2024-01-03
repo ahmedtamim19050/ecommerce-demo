@@ -50,12 +50,24 @@
                     <del>{{ Sohoj::price($product->price) }}</del>
                 </h5>
                 <div class="add-to-cart-box bg-white">
-                    <a class="btn btn-add-cart addcart-button " href="{{ route('cart') }}" style="width: 100%">
+                    {{-- <a class="btn btn-add-cart addcart-button " href="{{ route('cart') }}" style="width: 100%">
                         Add
                         <span class="add-icon bg-light-gray">
                             <i class="fas fa-plus"></i>
                         </span>
-                    </a>
+                    </a> --}}
+                    <form action="{{ route('cart.store') }}" method="post">
+                        @csrf
+                        <input type="hidden" class="form-control qty" value="1" min="1" name="quantity">
+                        <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                        <button class="btn btn-add-cart addcart-button" type="submit"
+                            data-product-id="{{ $product->id }}"> ADD
+                            <span class="add-icon bg-light-gray">
+                                <i class="fas fa-plus"></i>
+                            </span>
+
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

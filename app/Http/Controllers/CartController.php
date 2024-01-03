@@ -14,20 +14,25 @@ class CartController extends Controller
 {
 	public function add(Request $request)
 	{
+	
 		$this->cart($request);
 
-		return response()->json(['success' => 'Item has been added to cart']);
+		flash()->addSuccess('Item has been added to cart!');
+		return back();
 	}
 	public function update(Request $request)
 	{
-
+		// dd($request->product_id);
 		Cart::update($request->product_id, array(
 			'quantity' => array(
 				'relative' => false,
 				'value' => $request->quantity
 			),
 		));
-		return back()->with('success_msg', 'Item has been updated!');
+		// dd($request->quantity);
+		flash()->addSuccess('Item has been updated!');
+
+		return back();
 	}
 	public function destroy($id)
 	{
@@ -78,7 +83,7 @@ class CartController extends Controller
 	{
 
 		if ($request->variable_attribute) {
-		    $variation = json_encode($request->variable_attribute);
+			$variation = json_encode($request->variable_attribute);
 			$product = DB::table('products')->where('parent_id', $request->product_id)->whereRaw("JSON_CONTAINS(variations, ?)", [$variation])->first();
 
 			if (!$product) {
