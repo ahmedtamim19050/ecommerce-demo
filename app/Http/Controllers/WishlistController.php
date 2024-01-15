@@ -24,8 +24,8 @@ class WishlistController extends Controller
         //     $wishlist[] = request()->productId;
         //     session()->put('wishlist', $wishlist);
         // }
-
-        return redirect()->back()->with('success_msg', 'Item added to wishlist.');
+        flash()->addSuccess('Item added to wishlist');
+        return redirect()->back();
     }
 
     public function remove($productId)
@@ -36,8 +36,8 @@ class WishlistController extends Controller
             $wishlist = array_values(array_diff($wishlist, [$productId]));
             session()->put('wishlist', $wishlist);
         }
-
-        return redirect()->back()->with('success_msg', 'Item removed from wishlist.');
+        flash()->addError('Item removed from wishlist', 'Remove');
+        return redirect()->back();
     }
 
     public function index()

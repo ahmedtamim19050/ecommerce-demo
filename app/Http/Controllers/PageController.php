@@ -99,8 +99,8 @@ class PageController extends Controller
 
     public function checkout()
     {
-
-        return view('pages.checkout');
+        $cartCollection = Cart::getContent();
+        return view('pages.checkout', compact('cartCollection'));
     }
     public function store_front($slug)
 

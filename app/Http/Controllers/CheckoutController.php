@@ -20,22 +20,22 @@ class CheckoutController extends Controller
 {
     public function store(Request $request)
     {
-
+       
 
         $request->validate([
             'prevoius_address' => ['required'],
-            'first_name' => ['required', 'max:40'],
-            'last_name' => ['required', 'max:40'],
-            'email' => ['required', 'max:40', 'email'],
-            'terms' => ['required'],
-            'payment_method' => 'required'
+            // 'first_name' => ['required', 'max:40'],
+            // 'last_name' => ['required', 'max:40'],
+            // 'email' => ['required', 'max:40', 'email'],
+            // 'terms' => ['required'],
+            // 'payment_method' => 'required'
         ], [
             'prevoius_address.required' => 'You need to set a address first  by clicking "Add Address" bellow'
         ]);
-
+       
         $customer = auth()->user()->createOrGetStripeCustomer();
 
-        auth()->user()->addPaymentMethod($request->payment_method[0]);
+        // auth()->user()->addPaymentMethod($request->payment_method[0]);
         $address = Address::find($request->prevoius_address);
 
         $shipping = [
@@ -52,9 +52,9 @@ class CheckoutController extends Controller
             'shipping_method' => null,
             'shipping_url' => null,
         ];
-        
+
         if ($this->productsAreNoLongerAvailable()) {
-            
+
             return back()->withErrors('Sorry! One of the items in your cart is no longer Available!');
         }
         $i = 0;
@@ -99,17 +99,17 @@ class CheckoutController extends Controller
                 $orderProduct['order_id'] = $order->id;
                 OrderProduct::create($orderProduct);
                 // Mail::to($request->email)->send(new OrderPlaced($order));
-                $this->notification(auth()->user() ? auth()->user()->id : null,$data['shop_id']);
+                $this->notification(auth()->user() ? auth()->user()->id : null, $data['shop_id']);
             } else {
-               
+
                 $parent = Order::create($data);
                 $orderProduct['order_id'] = $parent->id;
                 OrderProduct::create($orderProduct);
-                $this->notification(auth()->user() ? auth()->user()->id : null,$parent->shop->id);
+                $this->notification(auth()->user() ? auth()->user()->id : null, $parent->shop->id);
                 // Mail::to($request->email)->send(new OrderPlaced($parent));
             }
         }
-        auth()->user()->charge(($parent->total * 100), $request->payment_method[0]);
+        // auth()->user()->charge(($parent->total * 100), $request->payment_method[0]);
 
         $this->decreaseQuantities();
 
@@ -127,12 +127,14 @@ class CheckoutController extends Controller
             $product->update(['quantity' => $product->quantity - $item->quantity]);
         }
     }
-    protected function notification($user,$shop)
+    protected function notification($user, $shop)
     {
+        
         Notification::create([
-            'url'=>env('APP_URL').'/vendor/dashboard/orders/index',
-            'title'=>'Order Created',
-            'shop_id'=>$shop,
+            'url' => env('APP_URL') . '/vendor/dashboard/orders/index',
+            'title' => 'Order Created',
+            'shop_id' => $shop,
+            // 'user_id  ' => auth()->id(),
         ]);
     }
 
@@ -153,11 +155,16 @@ class CheckoutController extends Controller
             'address_1' => $request->address_1,
             'address_2' => $request->address_2,
             'country' => $request->country,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
             'state' => $request->state,
             'city' => $request->city,
             'post_code' => $request->post_code,
             'user_id' => auth()->id(),
         ]);
-        return redirect()->back()->with('success_msg', 'Address create successfull ');
+        flash()->addSuccess('Address create successfully');
+        return redirect()->back();
     }
 }

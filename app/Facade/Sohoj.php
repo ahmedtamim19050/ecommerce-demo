@@ -51,11 +51,11 @@ class Sohoj
             return $shipping->shipping_cost;
         }
     }
-    public function newItemTotal()
+    public function newSubtotal()
     {
         return Cart::getSubTotal();
     }
-    public function newSubtotal()
+    public function newItemTotal()
     {
         return Cart::getSubTotal() + $this->tax() - $this->discount();
     }
@@ -78,31 +78,28 @@ class Sohoj
 
     public function flatCommision($price)
     {
-        if($price < 15){
+        if ($price < 15) {
             return $price + 1.95;
-        }elseif($price > 15 && $price < 300){
+        } elseif ($price > 15 && $price < 300) {
             return $price + 3.75;
-        }elseif($price > 15 && $price < 300){
+        } elseif ($price > 15 && $price < 300) {
             return $price + 3.75;
-        }elseif($price > 300 && $price < 1000){
+        } elseif ($price > 300 && $price < 1000) {
             return $price + 7.95;
-        }else{
+        } else {
             return $price + 20;
         }
-        
     }
     public function vendorprice($price)
     {
         // return $price;
 
-        $tenPercent=$price * .1;
-        $sixPercent=$price * .06;
-        if($price < 1000){
+        $tenPercent = $price * .1;
+        $sixPercent = $price * .06;
+        if ($price < 1000) {
             return ($price - $tenPercent);
-        }else{
+        } else {
             return ($price - $sixPercent);
         }
     }
-  
-  
 }

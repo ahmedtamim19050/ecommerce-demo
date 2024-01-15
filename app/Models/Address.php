@@ -13,4 +13,14 @@ class Address extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getFUllNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getFUllAddressAttribute()
+    {
+        return "{$this->address_1}, {$this->city}, {$this->state}, {$this->country}";
+    }
 }

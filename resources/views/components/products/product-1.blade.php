@@ -8,9 +8,20 @@
                 </a>
                 <ul class="product-option">
                     <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
-                        <a href="wishlist.html" class="notifi-wishlist">
-                            <i class="fa-regular fa-heart" style="color: #ff4500;"></i>
-                        </a>
+                        {{-- <a href="javascript:void(0)" onclick="wishlist({{ $product->id }})" class="notifi-wishlist "
+                            title="Wishlist">
+                            <i class="fa-regular fa-heart add-wish-new_{{ $product->id }}" style="color: #ff4500;"></i>
+                        </a> --}}
+                        @if (!in_array($product->id, session()->get('wishlist', [])))
+                            <a href="{{ route('wishlist.add', ['productId' => $product->id]) }}" class="notifi-wishlist"
+                                style="color: #ff4500"><i class="fa-regular fa-heart"></i></a>
+                        @else
+                            <a href="{{ route('wishlist.remove', ['productId' => $product->id]) }}"
+                                class="notifi-wishlist" style="bottom: 50px"><i class="fa-solid fa-heart "
+                                    style="color: #ff4500"></i></a>
+                        @endif
+                        {{-- <a href="javascript:void(0)" onclick="wishlist({{ $product->id }})" class="notifi-wishlist "
+                            style="border-radius: 10px 10px 0 0" title="Wishlist"><i class="fi-rr-heart"></i></a> --}}
                     </li>
                 </ul>
             </div>

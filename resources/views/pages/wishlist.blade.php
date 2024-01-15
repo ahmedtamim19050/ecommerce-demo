@@ -13,7 +13,6 @@
 </style>
 @endsection
 @section('content')
-<x-app.header />
 <!-- User history section -->
 @if($products->count() == 0)
 <div class="container">

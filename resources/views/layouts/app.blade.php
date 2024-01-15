@@ -154,10 +154,13 @@
             </div>
         </div>
 
+        <x-alert />
     </footer>
     <script src="{{ asset('assets/frontend-assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('assets/frontend-assets/js/plugins/owl.carousel.min.js') }}"></script>
     @yield('js')
+    <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}" />
+
     <script src="{{ asset('assets/js/custom_slick.js') }}"></script>
 
 
@@ -190,6 +193,20 @@
                 },
             });
         });
+    </script>
+
+    <script>
+        function wishlist(id) {
+
+            $.ajax({
+                url: '/wishlist/add',
+                method: 'GET',
+                data: {
+                    productId: id
+                }
+
+            });
+        }
     </script>
 </body>
 

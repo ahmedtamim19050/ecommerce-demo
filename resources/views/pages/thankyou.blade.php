@@ -1,15 +1,37 @@
 @extends('layouts.app')
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/frontend-assetss/responsive.css') }}" />
-    <link rel="stylesheet" id="bg-switcher-css" href="{{ asset('assets/frontend-assetss/css/backgrounds/bg-4.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/shops.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/store_front.css') }}">
+    <style>
+        .thankyou {
+            background-color: #f8f9fa;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .thank-you-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .thank-you-message {
+            font-size: 24px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+
+
+        .back-to-home:hover {
+            background-color: #0056b3;
+        }
+    </style>
 @endsection
 @section('content')
-    <x-app.header />
     <!-- Ec Thank You page -->
-    <section class="ec-thank-you-page section-space-p">
+    {{-- <section class="ec-thank-you-page section-space-p">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -34,49 +56,18 @@
                 </div>
             </div>
         </div>
-    </section>
-    <section class="section ec-new-product section-space-p">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="section-title">
-                        <h2 class="ec-bg-title">New Arrivals</h2>
-                        <h2 class="ec-title">New Arrivals</h2>
-                        <p class="sub-title">Browse The Collection of Top Products</p>
-                    </div>
-                </div>
+    </section> --}}
+    <section class="thankyou">
+        <div class="thank-you-container">
+            <div class="thank-you-message">
+                <p>Thank you for your submission!</p>
+                <p>We appreciate your time and effort.</p>
+                <img src="{{ asset('assets/img/200w.gif') }}" alt="Thank you">
             </div>
-            <div class="row">
-                <!-- New Product Content -->
-                <div class="ec-spe-section  data-animation=" slideInLeft">
 
-                    <div class="ec-spe-products">
-                        @foreach ($latest_products->chunk(6) as $products)
-                            <div class="ec-fs-product">
-                                <div class="ec-fs-pro-inner">
-
-                                    <div class="row">
-                                        @foreach ($products as $product)
-                                            <x-products.product-3 :product="$product" />
-                                        @endforeach
-
-
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-            </div>
+            <a href="{{route('homepage')}}" class="btn btn-primary">Back to Home</a>
         </div>
     </section>
 @endsection
 @section('js')
-    <script src="{{ asset('assets/frontend-assets/js/vendor/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('assets/frontend-assets/js/plugins/jquery.sticky-sidebar.js') }}"></script>
-
-    <script src="{{ asset('assets/frontend-assets/js/main.js') }}"></script>
 @endsection

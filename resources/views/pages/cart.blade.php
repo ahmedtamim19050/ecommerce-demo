@@ -18,7 +18,7 @@
                                             <div class="product border-0">
                                                 <a href="" class="product-image">
                                                     <img src="{{ Storage::url($item->model->image) }}"
-                                                        class="img-fluid blur-up lazyloaded" alt="" />
+                                                        class="img-fluid blur-up lazyloaded" alt="{{ $item->name }}" />
                                                 </a>
                                                 <div class="product-details">
                                                     <ul>
@@ -47,7 +47,8 @@
                                                 <div class="d-flex">
                                                     <input type="number" name="quantity"
                                                         class="form-control quantity-input" value="{{ $item->quantity }}" />
-                                                    <input type="hidden" name="product_id" value="{{ $item->model->id }}" />
+                                                    <input type="hidden" name="product_id"
+                                                        value="{{ $item->model->id }}" />
                                                     <button type="submit" class="btn btn-success ms-3 update-button"
                                                         style="display:none;"><i
                                                             class="fa-solid fa-clipboard-check"></i></button>
@@ -71,36 +72,49 @@
                 </div>
                 <div class="col-md-4 col-12">
                     <div class="cart-box p-2">
-                        <div class="cart-header">
-                            <h4>Cart Total</h4>
+                        <div class="cart-header justify-content-between">
+                            <div class="titl">
+                                <h4>Cart Total</h4>
+                            </div>
+                            <span class="text-end">Total ({{ Cart::getTotalQuantity() }} items)</span>
                         </div>
                         <div class="cart-contain">
-                            <div class="couppon">
-                                <h6 class="text-content mb-2">Couppon Apply</h6>
-                                <form action="" class="mb-3 input-group coupon-box">
-                                    <input type="text" class="form-control" />
-                                    <button class="btn btn-success">Apply</button>
-                                </form>
-                            </div>
+
+                            @if (!session()->has('discount'))
+                                <div class="couppon">
+                                    <h6 class="text-content mb-2">Couppon Apply</h6>
+                                    <form class="mb-3 input-group coupon-box" method="POST"
+                                        action="{{ route('coupon') }}>
+                                        @csrf
+                                        <input type="text"
+                                        class="form-control" name="coupon_code" />
+                                    <button class="btn btn-success" type="submit" name="subscribe">Apply</button>
+                                    </form>
+                                </div>
+                            @endif
                             <ul class="p-0">
+                                @if (session()->has('discount'))
+                                    <li class="d-flex">
+                                        <span class="text-left">Discount <a href="{{ route('coupon.destroy') }}"
+                                                class="text-danger" style="text-decoration: underline">Delete</a></span>
+                                        <span class="text-right">{{ Sohoj::price(Sohoj::discount()) }}</span>
+                                    </li>
+                                @endif
                                 <li class="d-flex">
                                     <h4>Subtotal</h4>
-                                    <h4 class="price text-end">$123</h4>
+                                    <h4 class="price text-end">{{ Sohoj::price(Sohoj::newSubtotal()) }}</h4>
                                 </li>
+
                                 <li class="d-flex">
-                                    <h4>Couppon Discount</h4>
-                                    <h4 class="price text-end">$123</h4>
-                                </li>
-                                <li class="d-flex">
-                                    <h4>Shipping</h4>
-                                    <h4 class="price text-end">$123</h4>
+                                    <h4>Tax</h4>
+                                    <h4 class="price text-end">{{ Sohoj::price(Sohoj::tax()) }}</h4>
                                 </li>
                             </ul>
                         </div>
                         <ul class="cart-total px-3">
                             <li class="list-total border-top-0">
-                                <h4>Total (USD)</h4>
-                                <h4 class="price theme-color">$132.58</h4>
+                                <h4>Total</h4>
+                                <h4 class="price theme-color">{{ Sohoj::price(Sohoj::newItemTotal()) }}</h4>
                             </li>
                         </ul>
                         <div class="button-group cart-button">
