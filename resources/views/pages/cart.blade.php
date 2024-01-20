@@ -84,11 +84,10 @@
                                 <div class="couppon">
                                     <h6 class="text-content mb-2">Couppon Apply</h6>
                                     <form class="mb-3 input-group coupon-box" method="POST"
-                                        action="{{ route('coupon') }}>
+                                        action="{{ route('coupon') }}">
                                         @csrf
-                                        <input type="text"
-                                        class="form-control" name="coupon_code" />
-                                    <button class="btn btn-success" type="submit" name="subscribe">Apply</button>
+                                        <input type="text" class="form-control" name="coupon_code" />
+                                        <button class="btn btn-success" type="submit" name="subscribe">Apply</button>
                                     </form>
                                 </div>
                             @endif
