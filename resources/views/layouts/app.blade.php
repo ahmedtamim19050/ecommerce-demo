@@ -8,62 +8,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/plugins/owl.carousel.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/plugins/owl.theme.default.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/new-app.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/product.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/shop-card.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}" />
+
+
     @yield('css')
 
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    {{-- <header class=" d-lg-block d-none">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <!-- Logo Section -->
+                <div class="logo-box">
+                    <a class="navbar-brand" href="{{ route('homepage') }}"><img src="{{ asset('assets/img/1.png') }}"
+                            alt="" width="90" class="img-fluid blur-up lazyloaded"></a>
+                </div>
+
+                <!-- Middle Box Section -->
+                <div class="middle-box">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="#">shops</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+                            <a class="nav-link" href="#">Porducts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            <a class="nav-link" href="#">Menu 1</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Menu 2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Menu 3</a>
+                        </li>
+
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                </div>
+
+                <!-- Right Side Box Section -->
+                <div class="rightside-box">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item right-side">
+                            <a class="nav-link" href="#"><i class="fa-solid fa-phone"></i></a>
+                        </li>
+                        <li class="nav-item right-side">
+                            <a class="nav-link" aria-current="page" href="#"><i
+                                    class="fa-regular fa-heart"></i></a>
+                        </li>
+                        <li class="nav-item right-side">
+                            <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>
+
+                            </a>
+
+                        </li>
+                        <li class="nav-item right-side">
+                            <a class="nav-link" href="#">
+                                <i class="fa-regular fa-circle-user"></i>
+                            </a>
+                            <div class="dropdown_hover ">
+                                <ul>
+                                    <li><a class="dropdown-item" href="#">Log in</a></li>
+                                    <li><a class="dropdown-item" href="#">Register</a></li>
+                                    <li><a class="dropdown-item" href="#">Forgot Password</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
                 </div>
             </div>
         </nav>
-    </header>
+    </header> --}}
+    @include('components.header.header')
+
     <main>
         @yield('content')
     </main>
@@ -169,9 +196,7 @@
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

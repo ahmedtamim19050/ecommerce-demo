@@ -236,7 +236,7 @@
   border: none;
 }
 
-.nav-link {
+.product-section-box .nav-link {
   color: #333;
   background-color: transparent;
   border: none;
@@ -245,7 +245,7 @@
   font-weight: bold;
 }
 
-.nav-link.active {
+.product-section-box .nav-link.active {
   color: #333;
   border-bottom: 2px solid #007bff;
 }
@@ -747,8 +747,6 @@
   padding: 30px 0;
 }
 
-
-
 .breadscrumb-contain h2 {
   font-size: 24px;
   margin-bottom: 10px;
@@ -781,10 +779,10 @@
 .breadcrumb .breadcrumb-item a:hover {
   color: #333;
 }
-a{
+a {
   text-decoration: none;
   color: black;
 }
-a:hover{
+a:hover {
   color: grey;
 }

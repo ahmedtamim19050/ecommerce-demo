@@ -58,7 +58,7 @@
   right: -20px;
 }
 .title {
-  text-align: center;
+  text-align: start;
   margin-bottom: 30px;
 }
 
@@ -185,7 +185,7 @@ footer {
 /* Add your custom CSS here */
 
 .title {
-  text-align: center;
+  text-align: start;
   margin-bottom: 40px;
 }
 
@@ -215,4 +215,9 @@ footer {
 }
 .theme-bg-color {
   background: #0da487 !important;
+}
+.customSectionSideBorder {
+  border-left: 5px solid;
+  padding-left: 10px;
+  color: #0da487;
 }

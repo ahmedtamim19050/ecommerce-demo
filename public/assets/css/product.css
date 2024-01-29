@@ -147,7 +147,7 @@
 }
 
 .product-box-3 .price .theme-color {
-  color: #ff4500;
+  color: #0da487;
 }
 
 .product-box-3 .price del {
@@ -176,7 +176,7 @@
   transition: 0.4s ease-in-out;
 }
 .add-to-cart-box a:hover {
-  background-color: #ff4500 !important;
+  background-color: #0da487 !important;
   color: #fff !important;
 }
 .add-to-cart-box .add-icon {
@@ -190,6 +190,6 @@
 }
 
 .add-to-cart-box .add-icon i {
-  color: #ff4500;
+  color: #0da487;
   font-size: 14px;
 }

@@ -13,6 +13,7 @@ use App\Models\Shop;
 use App\Models\User;
 use App\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use TCG\Voyager\Models\Page;
 
@@ -32,10 +33,13 @@ class PageController extends Controller
         $latest_shops =  Shop::where("status", 1)->whereHas('products', function ($query) {
             $query->whereNull('parent_id');
         })->latest()->limit(8)->get();
+
+
         $prodcats = Prodcat::with('childrens')->where('parent_id', null)->get();
+        
         $sliders = Slider::latest()->get();
 
-        return view('pages.home', compact('latest_products', 'latest_shops', 'prodcats', 'sliders'));
+        return view('pages.home', compact('latest_products',  'latest_shops', 'prodcats', 'sliders'));
     }
     public function shops()
     {

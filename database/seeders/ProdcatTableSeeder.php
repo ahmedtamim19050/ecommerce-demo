@@ -15,39 +15,18 @@ class ProdcatTableSeeder extends Seeder
      */
     public function run()
     {
-        $imagePaths = [
-            'cat/1.png',
-            'cat/2.png',
-            'cat/3.png',
-            'cat/4.png',
-            'cat/5.png',
-            'cat/1.png',
-            'cat/2.png',
-            'cat/3.png',
-            'cat/4.png',
-            'cat/5.png',
-            'cat/1.png',
-            'cat/2.png',
-            'cat/3.png',
-            'cat/4.png',
-            'cat/5.png',
-
-
-
-
-        ];
         $data = [];
 
-        foreach ($imagePaths as $imagePath) {
+        foreach (range(1, 10) as $index) {
+
             $data[] = [
-                'shop_id' => rand(1, 15),
+                'shop_id' => rand(11, 15),
                 'name' => fake()->name(),
                 'slug' => fake()->unique()->username(),
-                'shop_id' => rand(1, 5),
-                'logo' => $imagePath,
-
+                'logo' => 'https://themes.pixelstrap.com/fastkart/assets/svg/1/vegetable.svg',
             ];
         }
+
         DB::table('prodcats')->insert($data);
     }
 }
