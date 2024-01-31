@@ -16,8 +16,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/product.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/shop-card.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}" />
-
-
     @yield('css')
 
 </head>
@@ -185,10 +183,11 @@
     </footer>
     <script src="{{ asset('assets/frontend-assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('assets/frontend-assets/js/plugins/owl.carousel.min.js') }}"></script>
-    @yield('js')
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}" />
 
+    <script src="{{ asset('assets/js/filter.js') }}"></script>
     <script src="{{ asset('assets/js/custom_slick.js') }}"></script>
+    @yield('js')
 
 
     <!-- Bootstrap JavaScript Libraries -->

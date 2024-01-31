@@ -1,378 +1,249 @@
 @php
-$route = route('shops');
+    $route = route('shops');
 @endphp
-
 @extends('layouts.app')
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/style.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/frontend-assetss/responsive.css') }}" />
-<link rel="stylesheet" id="bg-switcher-css" href="{{ asset('assets/frontend-assetss/css/backgrounds/bg-4.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="{{ asset('assets/frontend-assets/css/style.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/frontend-assetss/responsive.css') }}" />
-<link rel="stylesheet" id="bg-switcher-css" href="{{ asset('assets/frontend-assetss/css/backgrounds/bg-4.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<style>
-    .ec-product-inner .ec-pro-image .ec-pro-actions .wishlist {
-        position: absolute !important;
-        right: 10px !important;
-        bottom: 62px !important;
-        border: 1px solid #eeeeee;
-    }
-</style>
-<livewire:styles />
+    <link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
 @endsection
 @section('content')
-<x-app.header />
-<!-- Ec Shop page -->
-<div class="">
-    <div class="row container-fluid">
-        <aside class="col-md-2">
-            <div class="wrapper">
+    <!-- Category Section Start -->
+    <section class="mt-5">
+        <div class="container-fluid">
+            <div class="title">
 
-                <!-- <div class="filters"> <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filter<span class="px-1 fas fa-filter"></span></button> </div> -->
-                <div id="mobile-filter">
-                    <div class="py-3">
-                        <h5 class="font-weight-bold">Categories</h5>
-                        <ul class="list-group">
-                            @foreach($categories as $category) 
-                            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"> <a href="javascript::void(0)" onclick='updateSearchParams("category","{{$category->slug}}","{{ $route }}")'>{{$category->name}}</a>  <span class="badge badge-primary badge-pill">{{$category->products->count()}}</span> </li>
-                            @endforeach
-                            
-                        </ul>
-                    </div>
-                    {{-- <div class="py-3">
-                        <h5 class="font-weight-bold">Brands</h5>
-                        <form class="brand">
-                            <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Royal Fields <input type="checkbox"> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Crasmas Fields <input type="checkbox" checked> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Vegetarisma Farm <input type="checkbox" checked> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Farmar Field Eve <input type="checkbox"> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-1"> <label class="tick">True Farmar Steve <input type="checkbox"> <span class="check"></span> </label> </div>
-                        </form>
-                    </div> --}}
-                    <div class="py-3">
-                        <h5 class="font-weight-bold">Rating</h5>
-                        <form class="rating" id="ratingForm">
-                            <div class="form-inline d-flex align-items-center py-2"> <label class="tick"><span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <input type="checkbox" value="5" {{request('ratings')==5 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-2"> <label class="tick"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="4" {{request('ratings')==4 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-2"> <label class="tick"><span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="3" {{request('ratings')==3 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-2"> <label class="tick"><span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="2" {{request('ratings')==2 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                            <div class="form-inline d-flex align-items-center py-2"> <label class="tick"> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="1" {{request('ratings')==1 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                        </form>
+
+                <p class="title-subtext customSectionSideBorder">All Categories</p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="slider-9 owl-carousel owl-theme">
+                        @foreach ($categories as $prodcat)
+                            <div class="p-2">
+                                <a href="javascript::void(0)" id="categoryId"
+                                    onclick='updateSearchParams("category","{{ $prodcat->slug }}","{{ $route }}")'
+                                    class="category-box wow fadeInUp">
+                                    <div>
+                                        <img src="{{ $prodcat->logo }}" class="blur-up lazyload" alt="" />
+                                        <h5>{{ $prodcat->name }}({{ $prodcat->products->count() }})</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+
                     </div>
                 </div>
-                <div class="content py-md-0 py-3">
-                    <section id="sidebar">
-                        <div class="py-3">
-                            <h5 class="font-weight-bold">Categories</h5>
-                            <ul class="list-group">
-                                @foreach($categories as $category) 
-                                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"> <a href="javascript::void(0)" onclick='updateSearchParams("category","{{$category->slug}}","{{ $route }}")'>{{$category->name}}</a> <span class="badge badge-primary badge-pill">{{$category->products->count()}}</span> </li>
-                               @endforeach
-                            </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Category Section End -->
+
+    <!-- Shop Section Start -->
+    <section class="section-b-space shop-section mt-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 wow fadeInUp">
+                    <div class="left-box">
+                        <div class="shop-left-sidebar">
+
+
+                            <div class="accordion custome-accordion" id="accordionExample">
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree" aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                            <span style="border-bottom: 2px solid #0da487 ">Price</span>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse show"
+                                        aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <div class="range-slider">
+                                                <input type="text" class="js-range-slider" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                            <span>Rating</span>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSix" class="accordion-collapse collapse show"
+                                        aria-labelledby="panelsStayOpen-headingSix">
+                                        <div class="accordion-body">
+                                            <ul class="category-list custom-padding">
+                                                <li>
+                                                    <div class="form-check ps-0 m-0 category-list-box">
+                                                        <input class="checkbox_animated" type="checkbox">
+                                                        <div class="form-check-label">
+                                                            <ul class="rating">
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                            </ul>
+                                                            <span class="text-content">(5 Star)</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="form-check ps-0 m-0 category-list-box">
+                                                        <input class="checkbox_animated" type="checkbox">
+                                                        <div class="form-check-label">
+                                                            <ul class="rating">
+
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-regular fa-star"></i></li>
+                                                            </ul>
+                                                            <span class="text-content">(4 Star)</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="form-check ps-0 m-0 category-list-box">
+                                                        <input class="checkbox_animated" type="checkbox">
+                                                        <div class="form-check-label">
+                                                            <ul class="rating">
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-regular fa-star "></i></li>
+                                                                <li><i class="fa-regular fa-star"></i></li>
+                                                            </ul>
+                                                            <span class="text-content">(3 Star)</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="form-check ps-0 m-0 category-list-box">
+                                                        <input class="checkbox_animated" type="checkbox">
+                                                        <div class="form-check-label">
+                                                            <ul class="rating">
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-regular fa-star "></i></li>
+                                                                <li><i class="fa-regular fa-star "></i></li>
+                                                                <li><i class="fa-regular fa-star"></i></li>
+                                                            </ul>
+                                                            <span class="text-content">(2 Star)</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="form-check ps-0 m-0 category-list-box">
+                                                        <input class="checkbox_animated" type="checkbox">
+                                                        <div class="form-check-label">
+                                                            <ul class="rating">
+                                                                <li><i class="fa-solid fa-star"></i></li>
+                                                                <li><i class="fa-regular fa-star "></i></li>
+                                                                <li><i class="fa-regular fa-star "></i></li>
+                                                                <li><i class="fa-regular fa-star "></i></li>
+                                                                <li><i class="fa-regular fa-star"></i></li>
+                                                            </ul>
+                                                            <span class="text-content">(1 Star)</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
                         </div>
-                        {{-- <div class="py-3">
-                            <h5 class="font-weight-bold">Brands</h5>
-                            <form class="brand">
-                                <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Royal Fields <input type="checkbox"> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Crasmas Fields <input type="checkbox" checked> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Vegetarisma Farm <input type="checkbox" checked> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-1"> <label class="tick">Farmar Field Eve <input type="checkbox"> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-1"> <label class="tick">True Farmar Steve <input type="checkbox"> <span class="check"></span> </label> </div>
-                            </form>
-                        </div> --}}
-                        <div class="py-3">
-                            <h5 class="font-weight-bold">Rating</h5>
-                            <form class="rating" id="ratingForm">
-                                <div class="form-inline d-flex align-items-center py-2"> <label class="tick"><span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <input type="checkbox" value="5" {{request('ratings')==5 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-2"> <label class="tick"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="4" {{request('ratings')==4 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-2"> <label class="tick"><span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="3" {{request('ratings')==3 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-2"> <label class="tick"><span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="2" {{request('ratings')==2 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                                <div class="form-inline d-flex align-items-center py-2"> <label class="tick"> <span class="fas fa-star"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <span class="far fa-star px-1 text-muted"></span> <input type="checkbox" value="1" {{request('ratings')==1 ? 'checked' :'' }}> <span class="check"></span> </label> </div>
-                            </form>
+                    </div>
+                </div>
+
+                <div class="col-md-9 wow fadeInUp">
+                    <div class="show-button">
+
+
+                        <div class="top-filter-menu">
+                            <div class="category-dropdown ">
+                                <h5 class="text-content me-4">Sort By :</h5>
+                                <div class="dropdown me-1">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                        <span>Most Popular</span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li>
+                                            <a class="dropdown-item" id="pop"
+                                                href="javascript:void(0)">Popularity</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" id="low" href="javascript:void(0)">Low - High
+                                                Price</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" id="high" href="javascript:void(0)">High - Low
+                                                Price</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" id="rating" href="javascript:void(0)">Average
+                                                Rating</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" id="aToz" href="javascript:void(0)">A - Z
+                                                Order</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" id="zToa" href="javascript:void(0)">Z - A
+                                                Order</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" id="off" href="javascript:void(0)">% Off -
+                                                High To Low</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </section> <!-- Products Section -->
+                        <div
+                            class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
+                            @foreach ($products as $product)
+                                <x-products.product-1 :product="$product" />
+                            @endforeach
+                        </div>
+                    </div>
 
                 </div>
             </div>
-
-        </aside>
-        <div class="col-md-10">
-
-            <section class="ec-page-content section-space-p">
-                <div class="container">
-                    <div class="row">
-                        <div class="ec-shop-rightside col-lg-12 col-md-12">
-                            <!-- Shop Top Start -->
-                            <div class="ec-pro-list-top d-flex ">
-                                <div class="col-md-6 ec-grid-list">
-                                    <div class="ec-gl-btn">
-                                        <p>Results For “ <span style="color:#3BB77E ">{{ request()->search }}</span> ”</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 ec-sort-select">
-                                    <span class="sort-by text-end">Sort by:</span>
-                                    <div class="ec-select-inner" style="border: none">
-                                        <select name="ec-select" onchange='updateSearchParams("filter_products",this.value,"{{ $route }}")' id="ec-select" style="font-weight: 600;">
-
-                                            <option value="most-sold" {{ request()->filter_products == 'most-sold' ? 'selected' : '' }}>Most Sold
-                                            </option>
-                                            <option value="price-low-high " {{ request()->filter_products == 'price-low-high' ? 'selected' : '' }}>Price, low
-                                                to
-                                                high</option>
-                                            <option value="price-high-low" {{ request()->filter_products == 'price-high-low' ? 'selected' : '' }}>Price, high
-                                                to
-                                                low</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Shop Top End -->
-
-                            <!-- Shop content Start -->
-                            <div class="shop-pro-content">
-                                <div class="shop-pro-inner">
-                                    <div class="row">
-                                        @foreach ($products as $product)
-                                        <x-products.product-2 :product="$product" />
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <!-- Ec Pagination Start -->
-                                <div class="col d-flex justify-content-center">
-                                    <div class="pagination d-flex justify-content-center  align-items-center">
-                                        <button class="btn btn-dark-light rounded"><i class="fi-rr-arrow-alt-left"></i></button>
-                                        <p>View More</p>
-                                        <button class="btn btn-dark rounded"><i class="fi-rr-arrow-alt-right"></i></button>
-                                    </div>
-                                </div>
-                                <!-- Ec Pagination End -->
-                                {{-- Start sort by popular --}}
-                                <div class="col hr-border">
-
-                                </div>
-                                <!-- Shop Top Start -->
-                                <div class="ec-pro-list-top d-flex " style="margin-top: 40px">
-                                    {{-- <div class="col-md-6 ec-grid-list">
-                                    <div class="ec-gl-btn">
-                                        <p>Results For “ <span style="color:#3BB77E ">{{request()->search}}</span> ”</p>
-                                </div>
-                            </div> --}}
-                            <div class="col-md-12 ec-sort-select">
-                                <span class="sort-by text-end">Sort by:</span>
-                                <div class="ec-select-inner" style="border: none">
-                                    <select onchange='updateSearchParams("shop_products",this.value,"{{ $route }}")' name="ec-select" id="ec-select" style="font-weight: 600;">
-
-                                        <option value="most-populer" {{ request()->filter_products == 'most-populer' ? 'selected' : '' }}>Most
-                                            Popular
-                                        </option>
-                                        <option value="price-low-hight" {{ request()->filter_products == 'price-low-hight' ? 'selected' : '' }}>Price,
-                                            low
-                                            to high</option>
-                                        <option value="price-high-low" {{ request()->filter_products == 'price-high-low' ? 'selected' : '' }}>Price,
-                                            high
-                                            to low</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <livewire:shops />
-                        <!-- Shop Top End -->
-                        {{-- End sort by popular --}}
-                    </div>
-
-                </div>
-                <!-- Sidebar Area Start -->
-                <div class="filter-sidebar-overlay"></div>
-                <div class="ec-shop-leftside filter-sidebar">
-                    <div class="ec-sidebar-heading">
-                        <h1>Filter Products By</h1>
-                        <a class="filter-cls-btn" href="javascript:void(0)">×</a>
-                    </div>
-                    <div class="ec-sidebar-wrap">
-                        <!-- Sidebar Category Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Category</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" checked /> <a href="#">clothes</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" /> <a href="#">Bags</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" /> <a href="#">Shoes</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" /> <a href="#">cosmetics</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" /> <a href="#">electrics</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" /> <a href="#">phone</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li id="ec-more-toggle-content" style="padding: 0; display: none;">
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-block-item">
-                                                    <input type="checkbox" /> <a href="#">Watch</a><span class="checked"></span>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-block-item">
-                                                    <input type="checkbox" /> <a href="#">Cap</a><span class="checked"></span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item ec-more-toggle">
-                                            <span class="checked"></span><span id="ec-more-toggle">More
-                                                Categories</span>
-                                        </div>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Sidebar Size Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Size</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" value="" checked /><a href="#">S</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" value="" /><a href="#">M</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" value="" /> <a href="#">L</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" value="" /><a href="#">XL</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">
-                                            <input type="checkbox" value="" /><a href="#">XXL</a><span class="checked"></span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Sidebar Color item -->
-                        <div class="ec-sidebar-block ec-sidebar-block-clr">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Color</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#c4d6f9;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#ff748b;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#000000;"></span>
-                                        </div>
-                                    </li>
-                                    <li class="active">
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#2bff4a;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#ff7c5e;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#f155ff;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#ffef00;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#c89fff;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#7bfffa;"></span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ec-sidebar-block-item"><span style="background-color:#56ffc1;"></span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Sidebar Price Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Price</h3>
-                            </div>
-                            <div class="ec-sb-block-content es-price-slider">
-                                <div class="ec-price-filter">
-                                    <div id="ec-sliderPrice" class="filter__slider-price" data-min="0" data-max="250" data-step="10"></div>
-                                    <div class="ec-price-input">
-                                        <label class="filter__label"><input type="text" class="filter__input"></label>
-                                        <span class="ec-price-divider"></span>
-                                        <label class="filter__label"><input type="text" class="filter__input"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
         </div>
-    </div>
     </section>
-</div>
-</div>
-</div>
-<!-- End Shop page -->
+    <!-- Shop Section End -->
 @endsection
 @section('js')
-<livewire:scripts />
-<script src="{{ asset('assets/frontend-assets/js/vendor/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('assets/frontend-assets/js/plugins/jquery.sticky-sidebar.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 
-<script src="{{ asset('assets/frontend-assets/js/main.js') }}"></script>
+    <script>
+        $(".js-range-slider").ionRangeSlider({
+            type: "double",
+            skin: "flat",
+            min: 0,
+            max: 10000,
+            from: 0,
+            to: 10000,
+            grid: true,
+            prefix: "$",
+        });
+    </script>
+
 @endsection

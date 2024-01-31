@@ -60,7 +60,7 @@
                         <a class="nav-link menu-item-line" href="{{ route('homepage') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link menu-item-line" href="#">Shops</a>
+                        <a class="nav-link menu-item-line" href="{{ route('shops') }}">Shops</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link menu-item-line" href="#">Products</a>

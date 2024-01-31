@@ -1,6 +1,6 @@
 .product-box-3 {
   position: relative;
-  background-color: #fff;
+  background-color: #f8f8f8;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
   overflow: hidden;
