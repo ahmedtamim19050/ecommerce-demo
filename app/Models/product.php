@@ -45,55 +45,55 @@ class Product extends Model
     public function subproductsuser(){
         return $this->hasMany(Product::class, 'parent_id', 'id')->where('price','>', 0)->whereNotNull('variations');
     }
-    public function scopeFilter($query)
-    {
-        //new
-        return $query
-            ->when(request()->filled('category'), function ($q) {
-                return $q->whereHas('prodcats', function ($query) {
-                    $query->where('slug', request()->category);
-                });
-            })
-            ->when(request()->has('search'), function ($q) {
-                return $q->where(function ($query) {
-                    $query->where('name', 'LIKE', '%' . request()->search . '%')
-                        ->orWhere('short_description', 'LIKE', '%' . request()->search . '%');
-                });
-            })
-            ->when(request()->has('featured'), function ($q) {
-                return $q->where('featured', 1);
-            })
-            ->when(request()->has('shop'), function ($q) {
-                return $q->whereHas('shop', function ($query) {
-                    $query->where('name', request()->shop);
-                });
-            })
-            ->when(
-                request()->has('ratings'),
-                function ($q) {
-                    return  $q->whereHas('ratings', function ($q) {
-                        $q->where('rating',request()->ratings);
+        public function scopeFilter($query)
+        {
+            //new
+            return $query
+                ->when(request()->filled('category'), function ($q) {
+                    return $q->whereHas('prodcats', function ($query) {
+                        $query->where('slug', request()->category);
                     });
-                }
-            )
+                })
+                ->when(request()->has('search'), function ($q) {
+                    return $q->where(function ($query) {
+                        $query->where('name', 'LIKE', '%' . request()->search . '%')
+                            ->orWhere('short_description', 'LIKE', '%' . request()->search . '%');
+                    });
+                })
+                ->when(request()->has('featured'), function ($q) {
+                    return $q->where('featured', 1);
+                })
+                ->when(request()->has('shop'), function ($q) {
+                    return $q->whereHas('shop', function ($query) {
+                        $query->where('name', request()->shop);
+                    });
+                })
+                ->when(
+                    request()->has('ratings'),
+                    function ($q) {
+                        return  $q->whereHas('ratings', function ($q) {
+                            $q->where('rating',request()->ratings);
+                        });
+                    }
+                )
 
-            ->when(request()->has('filter_products') && request()->filter_products == 'price-low-high', function ($q) {
-                return $q->orderBy('price', 'asc');
-            })
-            ->when(request()->has('filter_products') && request()->filter_products == 'price-high-low', function ($q) {
-                return $q->orderBy('price', 'desc');
-            })
-            ->when(request()->has('filter_products') && request()->filter_products == 'most-popular', function ($q) {
-                return $q->orderBy('total_sale', 'desc');
-            })
-            ->when(request()->has('filter_products') && request()->filter_products == 'trending', function ($q) {
-                return $q->orderBy('views', 'desc');
-            })
-            ->when(Session::has('location'), function ($q) {
-                $postcode = Session::get('location.postcode');
-                $q->whereIn('post_code', $postcode);
-            }); // default order
-    }
+                ->when(request()->has('filter_products') && request()->filter_products == 'price-low-high', function ($q) {
+                    return $q->orderBy('price', 'asc');
+                })
+                ->when(request()->has('filter_products') && request()->filter_products == 'price-high-low', function ($q) {
+                    return $q->orderBy('price', 'desc');
+                })
+                ->when(request()->has('filter_products') && request()->filter_products == 'most-popular', function ($q) {
+                    return $q->orderBy('total_sale', 'desc');
+                })
+                ->when(request()->has('filter_products') && request()->filter_products == 'trending', function ($q) {
+                    return $q->orderBy('views', 'desc');
+                })
+                ->when(Session::has('location'), function ($q) {
+                    $postcode = Session::get('location.postcode');
+                    $q->whereIn('post_code', $postcode);
+                }); // default order
+        }
     public function ratings()
     {
         return $this->hasMany(Rating::class)->where('status', 1)->latest();

@@ -36,7 +36,7 @@ class PageController extends Controller
 
 
         $prodcats = Prodcat::with('childrens')->where('parent_id', null)->get();
-        
+
         $sliders = Slider::latest()->get();
 
         return view('pages.home', compact('latest_products',  'latest_shops', 'prodcats', 'sliders'));
@@ -48,8 +48,10 @@ class PageController extends Controller
         })->filter()->get();
         $categories = Prodcat::has('products')->latest()->get();
 
+        $minPrice = Product::min('price');
+        $maxPrice = Product::max('price');
 
-        return view('pages.shops', compact('products', 'categories'));
+        return view('pages.shops', compact('products', 'categories', 'minPrice', 'maxPrice'));
     }
     public function product_details($slug)
     {

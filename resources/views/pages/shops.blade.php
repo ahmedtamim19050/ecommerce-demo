@@ -23,7 +23,7 @@
                             <div class="p-2">
                                 <a href="javascript::void(0)" id="categoryId"
                                     onclick='updateSearchParams("category","{{ $prodcat->slug }}","{{ $route }}")'
-                                    class="category-box wow fadeInUp">
+                                    class="category-box wow fadeInUp @if (request()->category == $prodcat->slug) active-category @endif">
                                     <div>
                                         <img src="{{ $prodcat->logo }}" class="blur-up lazyload" alt="" />
                                         <h5>{{ $prodcat->name }}({{ $prodcat->products->count() }})</h5>
@@ -63,11 +63,13 @@
                                         aria-labelledby="panelsStayOpen-headingThree">
                                         <div class="accordion-body">
                                             <div class="range-slider">
-                                                <input type="text" class="js-range-slider" value="">
+                                                <input type="text" class="js-range-slider" value=""
+                                                    data-min="{{ $minPrice }}" data-max="{{ $maxPrice }}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="panelsStayOpen-headingSix">
@@ -237,13 +239,12 @@
         $(".js-range-slider").ionRangeSlider({
             type: "double",
             skin: "flat",
-            min: 0,
-            max: 10000,
-            from: 0,
-            to: 10000,
+            min: $('.js-range-slider').data('min'),
+            max: $('.js-range-slider').data('max'),
+            from: $('.js-range-slider').data('min'),
+            to: $('.js-range-slider').data('max'),
             grid: true,
             prefix: "$",
         });
     </script>
-
 @endsection
