@@ -23,20 +23,28 @@
                 <div class="col-md-4">
                     <ul class="navbar-nav justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link custom-icon border rounded-circle mx-2" href="#">
+                            <a class="nav-link custom-icon border rounded-circle mx-2"
+                                href="{{ route('wishlist.index') }}">
                                 <i class="icon-menu fa-regular fa-heart"></i>
 
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link custom-icon border rounded-circle mx-2" href="#">
+                            <a class="nav-link custom-icon border rounded-circle position-relative mx-2"
+                                href="{{ route('cart') }}">
                                 <i class="fa-solid fa-cart-shopping icon-menu"></i>
+                                <span class="position-absolute start-100  translate-middle badge rounded-pill"
+                                    style="background-color: #ff5951; top: 5px">
+                                    {{ Cart::getContent()->count() }}
+                                </span>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link border custom-icon rounded-circle mx-2" href="#" role="button"
+                            <a class="nav-link border  custom-icon rounded-circle mx-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-regular fa-user icon-menu"></i>
+
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Login</a></li>

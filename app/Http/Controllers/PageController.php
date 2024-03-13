@@ -73,7 +73,7 @@ class PageController extends Controller
 
         $minPrice = Product::min('price');
         $maxPrice = Product::max('price');
-
+        
         return view('pages.shops', compact('products', 'categories', 'minPrice', 'maxPrice'));
     }
     public function product_details($slug)

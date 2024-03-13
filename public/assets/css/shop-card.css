@@ -95,6 +95,8 @@
   background-color: #53c5ab;
   color: #fff;
   cursor: pointer;
+  text-decoration: none;
+  text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   padding: 10px 20px;

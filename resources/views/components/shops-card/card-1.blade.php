@@ -35,9 +35,9 @@
                     @endforeach
                 @endif
             </div>
-            <button class="nature-btn-visit-store nature-fw-bold">
+            <a class="nature-btn-visit-store nature-fw-bold" href="{{ route('store_front', $shop->slug) }}">
                 Visit Store <i class="fas fa-arrow-right-long"></i>
-            </button>
+            </a>
         </div>
     </div>
 </div>
