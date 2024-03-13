@@ -41,11 +41,34 @@ class PageController extends Controller
 
         return view('pages.home', compact('latest_products',  'latest_shops', 'prodcats', 'sliders'));
     }
-    public function shops()
+    public function shops(Request $request)
     {
-        $products = Product::where("status", 1)->limit(12)->whereNull('parent_id')->whereHas('shop', function ($q) {
+        $query = Product::where("status", 1)->limit(12)->whereNull('parent_id')->whereHas('shop', function ($q) {
             $q->where('status', 1);
-        })->filter()->get();
+        })->filter();
+        $sort = $request->input('sort', 'popularity');
+
+        switch ($sort) {
+            case 'low':
+                $query->orderBy('sale_price', 'asc');
+                break;
+            case 'high':
+                $query->orderBy('sale_price', 'desc');
+                break;
+            case 'aToz':
+                $query->orderBy('name', 'asc');
+                // dd($query->orderBy('name', 'asc')->get());
+                break;
+            case 'zToa':
+                $query->orderBy('name', 'desc');
+                break;
+            default:
+                $query->orderBy('views', 'desc');
+                break;
+        }
+
+
+        $products = $query->get();
         $categories = Prodcat::has('products')->latest()->get();
 
         $minPrice = Product::min('price');

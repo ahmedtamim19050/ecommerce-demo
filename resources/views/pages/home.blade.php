@@ -1,3 +1,6 @@
+@php
+    $route = route('shops');
+@endphp
 @extends('layouts.app')
 @section('content')
     <section class="mt-5">
@@ -15,7 +18,9 @@
                     <div class="slider-9 owl-carousel owl-theme">
                         @foreach ($prodcats as $prodcat)
                             <div class="p-2">
-                                <a href="shop-left-sidebar.html" class="category-box wow fadeInUp">
+                                <a href="javascript::void(0)" id="categoryId"
+                                    onclick='updateSearchParams("category","{{ $prodcat->slug }}","{{ $route }}")'
+                                    class="category-box wow fadeInUp @if (request()->category == $prodcat->slug) active-category @endif">
                                     <div>
                                         <img src="{{ $prodcat->logo }}" class="blur-up lazyload" alt="" />
                                         <h5>{{ $prodcat->name }}</h5>

@@ -1,3 +1,6 @@
+@php
+    $route = route('shops');
+@endphp
 <header>
     <!-- First Navbar with Logo and Search Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-desktop">
@@ -66,7 +69,10 @@
                         <a class="nav-link menu-item-line" href="#">Products</a>
                     </li>
                     @php
-                        $popularCategories = App\Models\Prodcat::select('prodcats.*', DB::raw('COUNT(prodcat_product.product_id) as popularCategories'))
+                        $popularCategories = App\Models\Prodcat::select(
+                            'prodcats.*',
+                            DB::raw('COUNT(prodcat_product.product_id) as popularCategories'),
+                        )
                             ->leftJoin('prodcat_product', 'prodcats.id', '=', 'prodcat_product.prodcat_id')
                             ->groupBy('prodcats.id')
                             ->orderByDesc('popularCategories')
@@ -75,9 +81,10 @@
                     @endphp
 
                     @foreach ($popularCategories as $item)
+                        {{-- @dd($item) --}}
                         <li class="nav-item">
-                            <a class="nav-link menu-item-line"
-                                href="{{ route('product_details', $item) }}">{{ $item->name }}</a>
+                            <a id="categoryId" class="nav-link menu-item-line " href="javascript::void(0)"
+                                onclick='updateSearchParams("category","{{ $item->slug }}","{{ $route }}")'>{{ $item->name }}</a>
                         </li>
                     @endforeach
 

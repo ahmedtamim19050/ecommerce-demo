@@ -176,48 +176,43 @@
                 <div class="col-md-9 wow fadeInUp">
                     <div class="show-button">
 
-
                         <div class="top-filter-menu">
-                            <div class="category-dropdown ">
+                            <div class="category-dropdown">
                                 <h5 class="text-content me-4">Sort By :</h5>
                                 <div class="dropdown me-1">
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                        <span>Most Popular</span>
+                                        <span id="selectedSort">Popularity</span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li>
                                             <a class="dropdown-item" id="pop"
-                                                href="javascript:void(0)">Popularity</a>
+                                                href="{{ route('shops', ['sort' => 'popularity']) }}">Popularity</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" id="low" href="javascript:void(0)">Low - High
-                                                Price</a>
+                                            <a class="dropdown-item" id="low"
+                                                href="{{ route('shops', ['sort' => 'low']) }}">Low - High Price</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" id="high" href="javascript:void(0)">High - Low
-                                                Price</a>
+                                            <a class="dropdown-item" id="high"
+                                                href="{{ route('shops', ['sort' => 'high']) }}">High - Low Price</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" id="rating" href="javascript:void(0)">Average
-                                                Rating</a>
+                                            <a class="dropdown-item" id="aToz"
+                                                href="{{ route('shops', ['sort' => 'aToz']) }}">A - Z Order</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" id="aToz" href="javascript:void(0)">A - Z
-                                                Order</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" id="zToa" href="javascript:void(0)">Z - A
-                                                Order</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" id="off" href="javascript:void(0)">% Off -
-                                                High To Low</a>
+                                            <a class="dropdown-item" id="zToa"
+                                                href="{{ route('shops', ['sort' => 'zToa']) }}">Z - A Order</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
+
+
+
                         <div
                             class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
                             @foreach ($products as $product)
@@ -245,6 +240,22 @@
             to: $('.js-range-slider').data('max'),
             grid: true,
             prefix: "$",
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedSortElement = document.getElementById('selectedSort');
+            const savedSort = localStorage.getItem('selectedSort');
+
+            // Set initial or saved sort
+            selectedSortElement.innerText = savedSort || 'Popularity';
+
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    selectedSortElement.innerText = item.innerText;
+                    localStorage.setItem('selectedSort', item.innerText);
+                });
+            });
         });
     </script>
 @endsection
